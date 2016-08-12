@@ -4,6 +4,8 @@ var app = express();
 var fs = require('fs');
 var ejs = require('ejs');
 
+app.use(express.static('public'));
+
 app.get('/', function (req, res) {
 	PythonShell.run('first.py', function (err) {
 	  if (err) throw err;
@@ -31,7 +33,6 @@ app.get('/water', function (req, res) {
 });
 
 app.get('/water/:one', function (req, res) {
-
 	if(req.params.one == "one"){
 		time = 60
 	}else if(!isNaN(parseInt(req.params.one))){
@@ -39,12 +40,10 @@ app.get('/water/:one', function (req, res) {
 	}else{
 		time = false
 	}
-
 	if (time){		
 		var options = {
 		  args: [time]
 		};
-
 		PythonShell.run('water_one.py', options, function (err) {
 		  if (err) throw err;
 		  console.log('finished');
@@ -52,14 +51,25 @@ app.get('/water/:one', function (req, res) {
 			res.setHeader("Location", "/water");
 			res.end();
 		});
-		
-
 	}else{
 		res.statusCode = 302; 
 		res.setHeader("Location", "/water");
 		res.end();
 	}
+});
 
+app.get('/image', function (req, res) {
+	res.sendFile(__dirname + '/image.html');
+});
+
+app.get('/image/new', function (req, res) {
+	PythonShell.run('cam.py', options, function (err) {
+	  if (err) throw err;
+	  console.log('finished');
+		res.statusCode = 302; 
+		res.setHeader("Location", "/image");
+		res.end();
+	});
 });
 
 app.listen(3000, function () {
