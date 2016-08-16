@@ -43,7 +43,6 @@ app.get('/water/:one', function (req, res) {
 		  args: [time]
 		};
 		PythonShell.run('water_one.py', options, function (err) {
-		  if (err) throw err;
 		  console.log('finished');
 			res.statusCode = 302; 
 			res.setHeader("Location", "/water");
@@ -82,7 +81,6 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['b_on']
 		};
 		PythonShell.run('TransmitRF.py', options, function (err) {
-		  if (err) throw err;
 		  console.log('finished');
 			res.statusCode = 302; 
 			res.setHeader("Location", "/image/new");
@@ -93,7 +91,6 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['b_off']
 		};
 		PythonShell.run('TransmitRF.py', options, function (err) {
-		  if (err) throw err;
 		  console.log('finished');
 			res.statusCode = 302; 
 			res.setHeader("Location", "/image/new");
