@@ -8,20 +8,18 @@ app.use(express.static('public'));
 
 app.get('/', function (req, res) {
 	PythonShell.run('first.py', function (err) {
-	  if (err) throw err;
 	  console.log('finished');
 	});
 	res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/water', function (req, res) {
-	var lineReader = require('readline').createInterface({
-	  input: require('fs').createReadStream('water.txt')
-	});
-	var totalLines = []
-	lineReader.on('line', function (line) {
-	  totalLines.push(line);
-	});
+totalLines=[]
+var readline = require('linebyline'),
+rl = readline('/home/pi/rpi_automation/water.txt');
+rl.on('line', function(line, lineCount, byteCount) {
+     totalLines.push(line)
+})
 	fs.readFile('water.html', 'utf-8', function(err, content) {
 	  if (err) {
 	    res.end('error occurred');
@@ -63,15 +61,47 @@ app.get('/image', function (req, res) {
 });
 
 app.get('/image/new', function (req, res) {
-	PythonShell.run('cam.py', options, function (err) {
-	  if (err) throw err;
-	  console.log('finished');
+	newImage = function(){
+		PythonShell.run('cam.py', function (err) {
+	  	console.log('finished');
 		res.statusCode = 302; 
 		res.setHeader("Location", "/image");
 		res.end();
-	});
+		});
+	}
+	newImage()
 });
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
+});
+
+app.get('/light/:switch', function (req, res) {
+	if(req.params.switch == "on"){
+		var options = {
+		  args: ['b_on']
+		};
+		PythonShell.run('TransmitRF.py', options, function (err) {
+		  if (err) throw err;
+		  console.log('finished');
+			res.statusCode = 302; 
+			res.setHeader("Location", "/image/new");
+			res.end();
+		});
+	}else if(req.params.switch == "off"){
+		var options = {
+		  args: ['b_off']
+		};
+		PythonShell.run('TransmitRF.py', options, function (err) {
+		  if (err) throw err;
+		  console.log('finished');
+			res.statusCode = 302; 
+			res.setHeader("Location", "/image/new");
+			res.end();
+		});
+	}else{
+		res.statusCode = 302; 
+		res.setHeader("Location", "/image/new");
+		res.end();
+	}
 });

@@ -1,8 +1,8 @@
-import pygame
-import pygame.camera
-
-pygame.camera.init()
-cam = pygame.camera.Camera(0,(640,480))
-cam.start()
-img = cam.get_image()
-pygame.image.save(img,"last_capture.jpg")
+from cv2 import *
+cam = VideoCapture(0)   # 0 -> index of camera
+s, img = cam.read()
+if s:    # frame captured without any errors
+    namedWindow("cam-test",CV_WINDOW_AUTOSIZE)
+    imshow("cam-test",img)
+    destroyWindow("cam-test")
+    imwrite("/home/pi/rpi_automation/public/images/last_capture.jpg",img) #save image
