@@ -27,6 +27,8 @@ The node server is hosted through a tunneling service so I can access it anywher
 
 # Future Improvements
 
+Create and amazon echo skill which will interact with the node server.
+
 Have the garden lighting cron job rely off of a file, similarly to the water_cron.py. This will allow me to update when lights should turn on an off on the fly via the webserver.
 
 Imrpove the water_cron.py so the amount of days to wait inbetween watering can be changed on the fly via the server.
