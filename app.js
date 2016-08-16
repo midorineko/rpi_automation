@@ -16,7 +16,7 @@ app.get('/', function (req, res) {
 app.get('/water', function (req, res) {
 	totalLines=[]
 	var readline = require('linebyline'),
-	rl = readline('/home/pi/rpi_automation/water.txt');
+	rl = readline('water.txt');
 	rl.on('line', function(line, lineCount, byteCount) {
 	     totalLines.push(line)
 	})

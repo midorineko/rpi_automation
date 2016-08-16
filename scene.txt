@@ -2,3 +2,4 @@ dota
 blaze
 chill
 seafoam
+veg_box

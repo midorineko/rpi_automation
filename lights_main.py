@@ -41,3 +41,9 @@ elif command == 'seafoam':
   b.lights(1, 'state', bri=255, on=True, xy=[0.1638, 0.3531])
   b.lights(2, 'state', bri=255, on=True, xy=[0.2263, 0.3402])
   b.lights(3, 'state', bri=255, on=True, xy=[0.1618, 0.3365])
+  os.system("python /home/pi/rpi_automation/TransmitRF.py d_off")
+elif command == 'veg_box':
+  b.lights(1, 'state', bri=255, on=True, xy=[0.3695, 0.168])
+  b.lights(2, 'state', bri=255, on=True, xy=[0.3481, 0.156])
+  b.lights(3, 'state', bri=255, on=True, xy=[0.3182, 0.1454])
+  os.system('python /home/pi/rpi_automation/TransmitRF.py d_off')

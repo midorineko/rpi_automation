@@ -2,7 +2,7 @@ import time
 import sys
 import os
 
-f = open('/home/pi/rpi_automation/water.txt','a')
+f = open('water.txt','a')
 
 start_date = time.strftime("%d/%m/%Y")
 start_hour = time.strftime("%H:%M:%S")
