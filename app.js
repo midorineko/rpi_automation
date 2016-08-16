@@ -76,8 +76,8 @@ app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
 
-app.get('/light/:switch', function (req, res) {
-	if(req.params.switch == "on"){
+app.get('/lights/:switch', function (req, res) {
+	if(req.params.switch == "grow_on"){
 		var options = {
 		  args: ['b_on']
 		};
@@ -88,7 +88,7 @@ app.get('/light/:switch', function (req, res) {
 			res.setHeader("Location", "/image/new");
 			res.end();
 		});
-	}else if(req.params.switch == "off"){
+	}else if(req.params.switch == "grow_off"){
 		var options = {
 		  args: ['b_off']
 		};
@@ -100,8 +100,14 @@ app.get('/light/:switch', function (req, res) {
 			res.end();
 		});
 	}else{
-		res.statusCode = 302; 
-		res.setHeader("Location", "/image/new");
-		res.end();
+		var options = {
+		  args: [req.params.switch.toLowerCase()]
+		};
+		PythonShell.run('lights_main.py', options, function (err) {
+			  console.log('finished');
+			  res.statusCode = 302; 
+			  res.setHeader("Location", "/");
+			  res.end();
+		});
 	}
 });
