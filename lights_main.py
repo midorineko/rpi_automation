@@ -19,18 +19,21 @@ elif command == 'dota':
 	b.lights(1, 'state', bri=255, on=True, xy=[0.6065, 0.3095])
 	b.lights(2, 'state', bri=255, on=True, xy=[0.6883, 0.306])
 	b.lights(3, 'state', bri=255, on=True, xy=[0.6883, 0.306])
+	os.system("python /home/pi/rpi_automation/TransmitRF.py d_off")
 elif command == 'blaze':
 	b.lights(1, 'state', bri=255, on=True, xy=[0.3344, 0.5002])
 	b.lights(2, 'state', bri=255, on=True, xy=[0.3254, 0.5028])
 	b.lights(3, 'state', bri=255, on=True, xy=[0.3239, 0.4932])
+	os.system("python /home/pi/rpi_automation/TransmitRF.py d_off")
 elif command == 'chill':
 	b.lights(1, 'state', bri=255, on=True, xy=[0.3069, 0.3152])
 	b.lights(2, 'state', bri=255, on=True, xy=[0.3069, 0.3152])
 	b.lights(3, 'state', bri=255, on=True, xy=[0.3069, 0.3152])
+	os.system("python /home/pi/rpi_automation/TransmitRF.py d_off")
 elif command == 'off':
 	b.lights(1, 'state', bri=255, on=False)
 	b.lights(2, 'state', bri=255, on=False)
 	b.lights(3, 'state', bri=255, on=False)
-	os.system("python /home/pi/rpi_automation/TransmitRF.py a_off")
+	os.system("python /home/pi/rpi_automation/TransmitRF.py d_off")
 elif command == 'on':
-	os.system("python /home/pi/rpi_automation/TransmitRF.py a_on")
+	os.system("python /home/pi/rpi_automation/TransmitRF.py d_on")

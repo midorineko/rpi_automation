@@ -1,9 +1,16 @@
 import requests
 import time
 
+f = open("hub.txt", "r")
+hub_name = f.readlines()[-1]
+f.close()
+
+site = "http://%s.localtunnel.me" % hub_name
+open_hub = """x-terminal-emulator -e 'bash -c "lt --port 3000 --subdomain %s"'""" % hub_name
+
 def check():
     try:
-        r = requests.head("http://stevenfun.localtunnel.me")
+        r = requests.head(site)
         print(r.status_code)
         if r.status_code != 200:
             import subprocess
@@ -14,7 +21,7 @@ def check():
 
             print (process.returncode)
             process2 = subprocess.Popen(
-                shlex.split("""x-terminal-emulator -e 'bash -c "lt --port 3000 --subdomain stevenfun"'"""), stdout=subprocess.PIPE)
+                shlex.split(open_hub), stdout=subprocess.PIPE)
             
             print (process2.returncode)
     except requests.ConnectionError:
