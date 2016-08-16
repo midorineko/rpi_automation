@@ -37,3 +37,7 @@ elif command == 'off':
 	os.system("python /home/pi/rpi_automation/TransmitRF.py d_off")
 elif command == 'on':
 	os.system("python /home/pi/rpi_automation/TransmitRF.py d_on")
+elif command == 'seafoam':
+  b.lights(1, 'state', bri=255, on=True, xy=[0.1638, 0.3531])
+  b.lights(2, 'state', bri=255, on=True, xy=[0.2263, 0.3402])
+  b.lights(3, 'state', bri=255, on=True, xy=[0.1618, 0.3365])

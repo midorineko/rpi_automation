@@ -14,12 +14,12 @@ app.get('/', function (req, res) {
 });
 
 app.get('/water', function (req, res) {
-totalLines=[]
-var readline = require('linebyline'),
-rl = readline('/home/pi/rpi_automation/water.txt');
-rl.on('line', function(line, lineCount, byteCount) {
-     totalLines.push(line)
-})
+	totalLines=[]
+	var readline = require('linebyline'),
+	rl = readline('/home/pi/rpi_automation/water.txt');
+	rl.on('line', function(line, lineCount, byteCount) {
+	     totalLines.push(line)
+	})
 	fs.readFile('water.html', 'utf-8', function(err, content) {
 	  if (err) {
 	    res.end('error occurred');
@@ -107,4 +107,29 @@ app.get('/lights/:switch', function (req, res) {
 			  res.end();
 		});
 	}
+});
+
+app.get('/scenes', function (req, res) {
+	scenes=[]
+	var readline = require('linebyline'),
+	rl = readline('scene.txt');
+	rl.on('line', function(line, lineCount, byteCount) {
+	     scenes.push(line)
+	})
+	fs.readFile('scene.html', 'utf-8', function(err, content) {
+	  var renderedHtml = ejs.render(content, {scenes: scenes});  //get redered HTML code
+	  res.end(renderedHtml);
+	});
+});
+
+app.get('/scenes/new/:name', function (req, res) {
+	var options = {
+	  args: [req.params.name.toLowerCase()]
+	};
+	PythonShell.run('scene_new.py', options, function (err) {
+		  console.log('finished');
+		  res.statusCode = 302; 
+		  res.setHeader("Location", "/scenes");
+		  res.end();
+	});
 });
