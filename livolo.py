@@ -2,8 +2,8 @@ import time
 import sys
 import RPi.GPIO as GPIO
 
-off =  "1242424352424342424242424242425342524342"
-on = '124242435242434242424242424242425243424242'
+off =  '1242424352424342424242424242425342524342'
+on  =  '124242435242434242424242424242425243424242'
 
 if sys.argv[1:] == 'off':
     NUM_ATTEMPTS = 1000
@@ -50,10 +50,10 @@ if __name__ == '__main__':
 
 # How to use:: I am putting this here, because it seems few people have figured out livolo switches.
 # Hold down livolo light switch for 5 seconds and wait for a beep.
-# Run ```python trans.py on```
+# Run ```python livolo.py on```
 # Livolo light switch should beep again, signalling it is paired
-# Now running ```python trans.py on``` will toggle the switch.
-# ```python trans.py off``` is global to all switches and should work out of box.
+# Now running ```python livolo.py on``` will toggle the switch.
+# ```python livolo.py off``` is global to all switches and should work out of box.
 
 # The following lines are possible RF codes which can be learned by the switch.
 # Just make them strings and save them to variables similarly to 'on' or 'off'.
