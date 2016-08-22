@@ -23,9 +23,3 @@ else:
 	b.lights(1, 'state', bri=int(strip_bri), on=True)
 	b.lights(2, 'state', bri=int(bloom1_bri), on=True)
 	b.lights(3, 'state', bri=int(bloom2_bri), on=True)
-	if strip_bri < 1:
-		b.lights(1, 'state', on=False)
-	if bloom1_bri < 1:
-		b.lights(2, 'state', on=False)
-	if bloom2_bri < 1:
-		b.lights(3, 'state', on=False)
