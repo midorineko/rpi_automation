@@ -16,7 +16,6 @@ f.write("elif command == '%s':" %sys.argv[-1] + "\n")
 f.write("  b.lights(1, 'state', bri=255, on=True, xy=%s)" %state_1 + "\n")
 f.write("  b.lights(2, 'state', bri=255, on=True, xy=%s)" %state_2 + "\n")
 f.write("  b.lights(3, 'state', bri=255, on=True, xy=%s)" %state_3 + "\n")
-f.write("  os.system('python /home/pi/rpi_automation/livolo.py off')" + "\n")
 f.close()
 
 
