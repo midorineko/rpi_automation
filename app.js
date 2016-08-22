@@ -102,13 +102,38 @@ app.get('/lights/:switch', function (req, res) {
 			res.setHeader("Location", "/grow");
 			res.end();
 		});
+	}else if(req.params.switch == "on"){
+		var options = {
+		  args: ['on']
+		};
+		PythonShell.run('livolo.py', options, function (err) {
+		  console.log('finished');
+			res.statusCode = 302; 
+			res.setHeader("Location", "/");
+			res.end();
+		});
+	}else if(req.params.switch == "off"){
+		var options = {
+		  args: ['off']
+		};
+		PythonShell.run('livolo.py', options, function (err) {
+		  console.log('finished');
+			res.statusCode = 302; 
+			res.setHeader("Location", "/");
+			res.end();
+		});
 	}else{
 		var options = {
 		  args: [req.params.switch.toLowerCase()]
 		};
+		inputArgs=req.params.switch.toLowerCase()
 		PythonShell.run('lights_main.py', options, function (err) {
-			  res.statusCode = 302; 
-			  res.setHeader("Location", "/");
+			  res.statusCode = 302;
+			  if(inputArgs == 'led_off'){
+				res.setHeader("Location", "/");
+			  }else{
+			  	res.setHeader("Location", "/lights/off");
+			  }
 			  res.end();
 		});
 	}
