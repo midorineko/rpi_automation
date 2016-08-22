@@ -3,19 +3,16 @@ from qhue import Bridge
 b = Bridge("100.66.30.18", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
 
 lights = b.lights
-print(b.config()['mac'])
-print(b.lights())
 
-state_1 = b.lights[1]()['state']['xy']
-state_2 = b.lights[2]()['state']['xy']
-state_3 = b.lights[3]()['state']['xy']
-
+state_1 = b.lights[1]()['state']
+state_2 = b.lights[2]()['state']
+state_3 = b.lights[3]()['state']
 
 f = open("lights_main.py", "a")
 f.write("elif command == '%s':" %sys.argv[-1] + "\n")
-f.write("  b.lights(1, 'state', bri=255, on=True, xy=%s)" %state_1 + "\n")
-f.write("  b.lights(2, 'state', bri=255, on=True, xy=%s)" %state_2 + "\n")
-f.write("  b.lights(3, 'state', bri=255, on=True, xy=%s)" %state_3 + "\n")
+f.write("  b.lights(1, 'state', bri=%s, on=True, xy=%s)" %(state_1['bri'], state_1['xy']) + "\n")
+f.write("  b.lights(2, 'state', bri=%s, on=True, xy=%s)" %(state_2['bri'], state_2['xy']) + "\n")
+f.write("  b.lights(3, 'state', bri=%s, on=True, xy=%s)" %(state_3['bri'], state_3['xy']) + "\n")
 f.write("  os.system('python /home/pi/rpi_automation/livolo.py off')" + "\n")
 f.close()
 
