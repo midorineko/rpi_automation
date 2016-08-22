@@ -149,7 +149,6 @@ app.post('/brightness', function (req, res) {
     	  args: [req.body.brightness1, req.body.brightness2, req.body.brightness3]
     	};
     }
-    console.log(options)
     PythonShell.run('brightness.py', options, function (err) {
     	  res.statusCode = 302; 
     	  res.setHeader("Location", "/");
