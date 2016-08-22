@@ -8,13 +8,17 @@ print(b.lights())
 command = sys.argv[-1]
 
 if command == 'led_off':
-	b.lights(1, 'state', bri=255, on=False)
-	b.lights(2, 'state', bri=255, on=False)
-	b.lights(3, 'state', bri=255, on=False)
+	b.lights(1, 'state', on=False)
+	b.lights(2, 'state', on=False)
+	b.lights(3, 'state', on=False)
 elif command == 'led_on':
-	b.lights(1, 'state', bri=255, on=True)
-	b.lights(2, 'state', bri=255, on=True)
-	b.lights(3, 'state', bri=255, on=True)
+	b.lights(1, 'state', on=True)
+	b.lights(2, 'state', on=True)
+	b.lights(3, 'state', on=True)
+elif command == 'all_off':
+	b.lights(1, 'state', on=False)
+	b.lights(2, 'state', on=False)
+	b.lights(3, 'state', on=False)
 elif command == 'dota':
 	b.lights(1, 'state', bri=255, on=True, xy=[0.6065, 0.3095])
 	b.lights(2, 'state', bri=255, on=True, xy=[0.6883, 0.306])

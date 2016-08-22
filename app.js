@@ -4,13 +4,23 @@ var app = express();
 var fs = require('fs');
 var ejs = require('ejs');
 
+
+
+var bodyParser = require('body-parser')
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+
+
 app.use(express.static('public'));
 
 app.get('/', function (req, res) {
-	PythonShell.run('first.py', function (err) {
-	  console.log('finished');
-	});
 	res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/grow', function (req, res) {
+	res.sendFile(__dirname + '/grow.html');
 });
 
 app.get('/water', function (req, res) {
@@ -43,7 +53,6 @@ app.get('/water/:one', function (req, res) {
 		  args: [time]
 		};
 		PythonShell.run('water_one.py', options, function (err) {
-		  console.log('finished');
 			res.statusCode = 302; 
 			res.setHeader("Location", "/water");
 			res.end();
@@ -62,7 +71,6 @@ app.get('/image', function (req, res) {
 app.get('/image/new', function (req, res) {
 	newImage = function(){
 		PythonShell.run('cam.py', function (err) {
-	  	console.log('finished');
 		res.statusCode = 302; 
 		res.setHeader("Location", "/image");
 		res.end();
@@ -72,7 +80,7 @@ app.get('/image/new', function (req, res) {
 });
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+  console.log('Started Home Automation on 3000!');
 });
 
 app.get('/lights/:switch', function (req, res) {
@@ -81,9 +89,8 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['b_on']
 		};
 		PythonShell.run('TransmitRF.py', options, function (err) {
-		  console.log('finished');
 			res.statusCode = 302; 
-			res.setHeader("Location", "/image/new");
+			res.setHeader("Location", "/grow");
 			res.end();
 		});
 	}else if(req.params.switch == "grow_off"){
@@ -91,9 +98,8 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['b_off']
 		};
 		PythonShell.run('TransmitRF.py', options, function (err) {
-		  console.log('finished');
 			res.statusCode = 302; 
-			res.setHeader("Location", "/image/new");
+			res.setHeader("Location", "/grow");
 			res.end();
 		});
 	}else if(req.params.switch == "on"){
@@ -122,7 +128,6 @@ app.get('/lights/:switch', function (req, res) {
 		};
 		inputArgs=req.params.switch.toLowerCase()
 		PythonShell.run('lights_main.py', options, function (err) {
-			  console.log('finished');
 			  res.statusCode = 302;
 			  if(inputArgs == 'led_off'){
 				res.setHeader("Location", "/");
@@ -152,9 +157,26 @@ app.get('/scenes/new/:name', function (req, res) {
 	  args: [req.params.name.toLowerCase()]
 	};
 	PythonShell.run('scene_new.py', options, function (err) {
-		  console.log('finished');
 		  res.statusCode = 302; 
 		  res.setHeader("Location", "/scenes");
 		  res.end();
 	});
+});
+
+app.post('/brightness', function (req, res) {
+    var options = {}
+    if(req.body.brightness != '1-255'){	
+    	options = {
+    	  args: [req.body.brightness]
+    	};
+    }else{
+    	options = {
+    	  args: [req.body.brightness1, req.body.brightness2, req.body.brightness3]
+    	};
+    }
+    PythonShell.run('brightness.py', options, function (err) {
+    	  res.statusCode = 302; 
+    	  res.setHeader("Location", "/");
+    	  res.end();
+    });
 });
