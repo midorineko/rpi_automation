@@ -17,9 +17,9 @@ if len(sys.argv) < 3:
 		b.lights(2, 'state', bri=brightness, on=True)
 		b.lights(3, 'state', bri=brightness, on=True)
 else:
-	strip_bri = int(sys.argv[-3])/100 * 255
-	bloom1_bri = int(sys.argv[-2])/100 * 255
-	bloom2_bri = int(sys.argv[-1])/100 * 255
+	strip_bri = int(sys.argv[-3])/100. * 255
+	bloom1_bri = int(sys.argv[-2])/100. * 255
+	bloom2_bri = int(sys.argv[-1])/100. * 255
 	b.lights(1, 'state', bri=int(strip_bri), on=True)
 	b.lights(2, 'state', bri=int(bloom1_bri), on=True)
 	b.lights(3, 'state', bri=int(bloom2_bri), on=True)
