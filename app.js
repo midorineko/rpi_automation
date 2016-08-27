@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 
 app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -100,12 +101,20 @@ app.get('/lights/:switch', function (req, res) {
 			res.setHeader("Location", "/grow");
 			res.end();
 		});
-	}else if(req.params.switch == "on"){
+	}else if(req.params.switch == "lights_on"){
 		var options = {
 		  args: ['on']
 		};
 		PythonShell.run('livolo.py', options, function (err) {
-		  console.log('finished');
+			res.statusCode = 302; 
+			res.setHeader("Location", "/");
+			res.end();
+		});
+	}else if(req.params.switch == "lights_off"){
+		var options = {
+		  args: ['off']
+		};
+		PythonShell.run('livolo.py', options, function (err) {
 			res.statusCode = 302; 
 			res.setHeader("Location", "/");
 			res.end();
@@ -115,9 +124,8 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['off']
 		};
 		PythonShell.run('livolo.py', options, function (err) {
-		  console.log('finished');
 			res.statusCode = 302; 
-			res.setHeader("Location", "/");
+			res.setHeader("Location", "/scenes");
 			res.end();
 		});
 	}else{
@@ -127,7 +135,9 @@ app.get('/lights/:switch', function (req, res) {
 		inputArgs=req.params.switch.toLowerCase()
 		PythonShell.run('lights_main.py', options, function (err) {
 			  res.statusCode = 302;
-			  if(inputArgs == 'led_off'){
+			  var myarr = ['led_off', 'lights_off', 'lights_on', 'all_off', 'led_off', 'led_on'];
+			  var route_main = (myarr.indexOf(inputArgs) > -1);
+			  if(route_main){
 				res.setHeader("Location", "/");
 			  }else{
 			  	res.setHeader("Location", "/lights/off");
@@ -174,7 +184,11 @@ app.post('/brightness', function (req, res) {
     }
     PythonShell.run('brightness.py', options, function (err) {
     	  res.statusCode = 302; 
-    	  res.setHeader("Location", "/");
+		    if(req.body.brightness == '1-255'){
+		  		res.setHeader("Location", "/scenes");
+		    }else{
+		    	res.setHeader("Location", "/");
+		    }
     	  res.end();
     });
 });

@@ -1,13 +1,12 @@
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
   <title>Steven's Home Automation Hub</title>
 </head>
 
 <table>
 <% for(var i=0; i < scenes.length; i++) { %>
-   <tr>
-     <td><a href=/lights/<%= scenes[i] %>><%= scenes[i] %></a></td>
-   </tr>
+     <a style="margin-right: 10px;" href=/lights/<%= scenes[i] %>><%= scenes[i] %></a>
 <% } %>
 </table>
 
@@ -16,11 +15,45 @@
 
 
 <form method="post" action="/set_scene">
-  <input type="submit" value="color">
-  Strip: <input class="jscolor"   name='strip_color' value="ab2567">
-  Bloom 1: <input class="jscolor" name='bloom_1_color' value="ab2567">
-  Bloom 2: <input class="jscolor" name='bloom_2_color' value="ab2567">
+  <input type="submit" value="Set Color">
+  <br><br>
+  Strip: <input class="jscolor"   name='strip_color' value="6669FF">
+  Bloom 1: <input class="jscolor" name='bloom_1_color' value="FF36EF">
+  Bloom 2: <input class="jscolor" name='bloom_2_color' value="FF36EF">
 </form>
+
+<form method="post" action="/brightness">
+  <input type="submit" onClick="update()" value="Set Brightness">
+  <input type="hidden" name="brightness" value="1-255">
+  <input type="hidden" name="brightness1" id="value1">
+  <input type="hidden" name="brightness2" id="value2">
+  <input type="hidden" name="brightness3" id="value3">
+</form>
+
+<script>
+    var x = document.createElement("INPUT");
+    x.setAttribute("type", "range");
+    document.body.appendChild(x);
+
+    var y = document.createElement("INPUT");
+    y.setAttribute("type", "range");
+    document.body.appendChild(y);
+
+    var z = document.createElement("INPUT");
+    z.setAttribute("type", "range");
+    document.body.appendChild(z);
+    x.value = 100
+    y.value = 100
+    z.value = 100
+    function update(){
+      document.getElementById("value1").value = x.value
+      document.getElementById("value2").value = y.value
+      document.getElementById("value3").value = z.value
+    }
+</script>
+
+<br>
+<br>
 
 <a href='/'>Index</a>
 
