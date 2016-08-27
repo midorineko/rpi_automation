@@ -2,8 +2,6 @@ import sys
 from qhue import Bridge
 b = Bridge("100.66.30.18", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
 lights = b.lights
-print(b.config()['mac'])
-print(b.lights())
 
 command = sys.argv[-1]
 
@@ -44,6 +42,6 @@ elif command == 'veg_box':
   b.lights(2, 'state', bri=255, on=True, xy=[0.3481, 0.156])
   b.lights(3, 'state', bri=255, on=True, xy=[0.3182, 0.1454])
 elif command == 'kitty':
-  b.lights(1, 'state', bri=255, on=True, xy=[0.3881, 0.3064])
-  b.lights(2, 'state', bri=255, on=True, xy=[0.5555, 0.3595])
-  b.lights(3, 'state', bri=255, on=True, xy=[0.5676, 0.3549])
+  b.lights(1, 'state', bri=254, on=True, xy=[0.3426, 0.1705])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.3949, 0.2899])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.2996, 0.2596])

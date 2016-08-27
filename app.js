@@ -10,8 +10,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
-
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
@@ -100,12 +99,20 @@ app.get('/lights/:switch', function (req, res) {
 			res.setHeader("Location", "/grow");
 			res.end();
 		});
-	}else if(req.params.switch == "on"){
+	}else if(req.params.switch == "lights_on"){
 		var options = {
 		  args: ['on']
 		};
 		PythonShell.run('livolo.py', options, function (err) {
-		  console.log('finished');
+			res.statusCode = 302; 
+			res.setHeader("Location", "/");
+			res.end();
+		});
+	}else if(req.params.switch == "lights_off"){
+		var options = {
+		  args: ['off']
+		};
+		PythonShell.run('livolo.py', options, function (err) {
 			res.statusCode = 302; 
 			res.setHeader("Location", "/");
 			res.end();
@@ -115,9 +122,8 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['off']
 		};
 		PythonShell.run('livolo.py', options, function (err) {
-		  console.log('finished');
 			res.statusCode = 302; 
-			res.setHeader("Location", "/");
+			res.setHeader("Location", "/scenes");
 			res.end();
 		});
 	}else{
@@ -127,7 +133,9 @@ app.get('/lights/:switch', function (req, res) {
 		inputArgs=req.params.switch.toLowerCase()
 		PythonShell.run('lights_main.py', options, function (err) {
 			  res.statusCode = 302;
-			  if(inputArgs == 'led_off'){
+			  var myarr = ['led_off', 'lights_off', 'lights_on', 'all_off', 'led_off', 'led_on'];
+			  var route_main = (myarr.indexOf(inputArgs) > -1);
+			  if(route_main){
 				res.setHeader("Location", "/");
 			  }else{
 			  	res.setHeader("Location", "/lights/off");
@@ -144,9 +152,16 @@ app.get('/scenes', function (req, res) {
 	rl.on('line', function(line, lineCount, byteCount) {
 	     scenes.push(line)
 	})
-	fs.readFile('scene.html', 'utf-8', function(err, content) {
-	  var renderedHtml = ejs.render(content, {scenes: scenes});  //get redered HTML code
-	  res.end(renderedHtml);
+	PythonShell.run('current_hue_status.py', function (err, results) {
+	  hue_status = results[0].split(',');
+	  hue_status.shift();
+	  strip_bri = hue_status[0]/254.0 * 100
+	  bloom_1_bri = hue_status[1]/254.0 * 100
+	  bloom_2_bri = hue_status[2]/254.0 * 100
+	  fs.readFile('scene.html', 'utf-8', function(err, content) {
+	    var renderedHtml = ejs.render(content, {scenes: scenes, hue_status: hue_status, strip_bri: strip_bri, bloom_1_bri: bloom_1_bri, bloom_2_bri: bloom_2_bri});  //get redered HTML code
+	    res.end(renderedHtml);
+	  });
 	});
 });
 
@@ -174,7 +189,22 @@ app.post('/brightness', function (req, res) {
     }
     PythonShell.run('brightness.py', options, function (err) {
     	  res.statusCode = 302; 
-    	  res.setHeader("Location", "/");
+		    if(req.body.brightness == '1-255'){
+		  		res.setHeader("Location", "/scenes");
+		    }else{
+		    	res.setHeader("Location", "/");
+		    }
+    	  res.end();
+    });
+});
+
+app.post('/set_scene', function (req, res) {
+    options = {
+    	  args: [req.body.strip_color, req.body.bloom_1_color, req.body.bloom_2_color]
+    	};
+    PythonShell.run('scene_color_set.py', options, function (err) {
+    	  res.statusCode = 302; 
+    	  res.setHeader("Location", "/scenes");
     	  res.end();
     });
 });
