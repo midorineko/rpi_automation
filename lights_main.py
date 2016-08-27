@@ -2,8 +2,6 @@ import sys
 from qhue import Bridge
 b = Bridge("100.66.30.18", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
 lights = b.lights
-print(b.config()['mac'])
-print(b.lights())
 
 command = sys.argv[-1]
 

@@ -178,3 +178,14 @@ app.post('/brightness', function (req, res) {
     	  res.end();
     });
 });
+
+app.post('/set_scene', function (req, res) {
+    options = {
+    	  args: [req.body.strip_color, req.body.bloom_1_color, req.body.bloom_2_color]
+    	};
+    PythonShell.run('scene_color_set.py', options, function (err) {
+    	  res.statusCode = 302; 
+    	  res.setHeader("Location", "/scenes");
+    	  res.end();
+    });
+});
