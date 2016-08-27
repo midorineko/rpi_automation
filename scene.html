@@ -17,9 +17,9 @@
 <form method="post" action="/set_scene">
   <input type="submit" value="Set Color">
   <br><br>
-  Strip: <input class="jscolor"   name='strip_color' value="6669FF">
-  Bloom 1: <input class="jscolor" name='bloom_1_color' value="FF36EF">
-  Bloom 2: <input class="jscolor" name='bloom_2_color' value="FF36EF">
+  Strip: <input class="jscolor"   name='strip_color' value=<%= hue_status[3] %>>
+  Bloom 1: <input class="jscolor" name='bloom_1_color' value=<%= hue_status[4] %>>
+  Bloom 2: <input class="jscolor" name='bloom_2_color' value=<%= hue_status[5] %>>
 </form>
 
 <form method="post" action="/brightness">
@@ -30,27 +30,31 @@
   <input type="hidden" name="brightness3" id="value3">
 </form>
 
-<script>
-    var x = document.createElement("INPUT");
-    x.setAttribute("type", "range");
-    document.body.appendChild(x);
+<% if (hue_status) { %>
+     <script>
+         var x = document.createElement("INPUT");
+         x.setAttribute("type", "range");
+         document.body.appendChild(x);
 
-    var y = document.createElement("INPUT");
-    y.setAttribute("type", "range");
-    document.body.appendChild(y);
+         var y = document.createElement("INPUT");
+         y.setAttribute("type", "range");
+         document.body.appendChild(y);
 
-    var z = document.createElement("INPUT");
-    z.setAttribute("type", "range");
-    document.body.appendChild(z);
-    x.value = 100
-    y.value = 100
-    z.value = 100
-    function update(){
-      document.getElementById("value1").value = x.value
-      document.getElementById("value2").value = y.value
-      document.getElementById("value3").value = z.value
-    }
-</script>
+         var z = document.createElement("INPUT");
+         z.setAttribute("type", "range");
+         document.body.appendChild(z);
+
+         x.value = <%= strip_bri %>
+         y.value = <%= bloom_1_bri %>
+         z.value = <%= bloom_2_bri %>
+
+         function update(){
+           document.getElementById("value1").value = x.value
+           document.getElementById("value2").value = y.value
+           document.getElementById("value3").value = z.value
+         }
+     </script>
+<% } %>
 
 <br>
 <br>

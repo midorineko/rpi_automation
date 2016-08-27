@@ -10,8 +10,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
-
-app.use(express.static('public'));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
@@ -154,9 +152,16 @@ app.get('/scenes', function (req, res) {
 	rl.on('line', function(line, lineCount, byteCount) {
 	     scenes.push(line)
 	})
-	fs.readFile('scene.html', 'utf-8', function(err, content) {
-	  var renderedHtml = ejs.render(content, {scenes: scenes});  //get redered HTML code
-	  res.end(renderedHtml);
+	PythonShell.run('current_hue_status.py', function (err, results) {
+	  hue_status = results[0].split(',');
+	  hue_status.shift();
+	  strip_bri = hue_status[0]/254.0 * 100
+	  bloom_1_bri = hue_status[1]/254.0 * 100
+	  bloom_2_bri = hue_status[2]/254.0 * 100
+	  fs.readFile('scene.html', 'utf-8', function(err, content) {
+	    var renderedHtml = ejs.render(content, {scenes: scenes, hue_status: hue_status, strip_bri: strip_bri, bloom_1_bri: bloom_1_bri, bloom_2_bri: bloom_2_bri});  //get redered HTML code
+	    res.end(renderedHtml);
+	  });
 	});
 });
 
