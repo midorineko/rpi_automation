@@ -17,9 +17,10 @@
 <form method="post" action="/set_scene">
   <input type="submit" value="Set Color">
   <br><br>
-  Strip: <input class="jscolor"   name='strip_color' value=<%= hue_status[3] %>>
-  Bloom 1: <input class="jscolor" name='bloom_1_color' value=<%= hue_status[4] %>>
-  Bloom 2: <input class="jscolor" name='bloom_2_color' value=<%= hue_status[5] %>>
+  Strip: <input class="jscolor" name='strip_color' value=<%= hue_status[4] %>>
+  Bloom 1: <input class="jscolor" name='bloom_1_color' value=<%= hue_status[5] %>>
+  Bloom 2: <input class="jscolor" name='bloom_2_color' value=<%= hue_status[6] %>>
+  Strip 2: <input class="jscolor" name='strip_2_color' value=<%= hue_status[7] %>>
 </form>
 
 <form method="post" action="/brightness">
@@ -28,6 +29,7 @@
   <input type="hidden" name="brightness1" id="value1">
   <input type="hidden" name="brightness2" id="value2">
   <input type="hidden" name="brightness3" id="value3">
+  <input type="hidden" name="brightness4" id="value4">
 </form>
 
 <% if (hue_status) { %>
@@ -44,14 +46,20 @@
          z.setAttribute("type", "range");
          document.body.appendChild(z);
 
+         var w = document.createElement("INPUT");
+         w.setAttribute("type", "range");
+         document.body.appendChild(w);
+
          x.value = <%= strip_bri %>
          y.value = <%= bloom_1_bri %>
          z.value = <%= bloom_2_bri %>
+         w.value = <%= strip_2_bri %>
 
          function update(){
            document.getElementById("value1").value = x.value
            document.getElementById("value2").value = y.value
            document.getElementById("value3").value = z.value
+           document.getElementById("value4").value = w.value
          }
      </script>
 <% } %>

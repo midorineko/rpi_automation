@@ -141,6 +141,8 @@ app.get('/lights/:switch', function (req, res) {
 			  	res.setHeader("Location", "/lights/off");
 			  }
 			  res.end();
+			console.log(err)
+
 		});
 	}
 });
@@ -158,8 +160,11 @@ app.get('/scenes', function (req, res) {
 	  strip_bri = hue_status[0]/254.0 * 100
 	  bloom_1_bri = hue_status[1]/254.0 * 100
 	  bloom_2_bri = hue_status[2]/254.0 * 100
+	  strip_2_bri = hue_status[3]/254.0 * 100
+
+	  console.log(hue_status)
 	  fs.readFile('scene.html', 'utf-8', function(err, content) {
-	    var renderedHtml = ejs.render(content, {scenes: scenes, hue_status: hue_status, strip_bri: strip_bri, bloom_1_bri: bloom_1_bri, bloom_2_bri: bloom_2_bri});  //get redered HTML code
+	    var renderedHtml = ejs.render(content, {scenes: scenes, hue_status: hue_status, strip_bri: strip_bri, bloom_1_bri: bloom_1_bri, bloom_2_bri: bloom_2_bri, strip_2_bri: strip_2_bri});  //get redered HTML code
 	    res.end(renderedHtml);
 	  });
 	});
@@ -184,7 +189,7 @@ app.post('/brightness', function (req, res) {
     	};
     }else{
     	options = {
-    	  args: [req.body.brightness1, req.body.brightness2, req.body.brightness3]
+    	  args: [req.body.brightness1, req.body.brightness2, req.body.brightness3, req.body.brightness4]
     	};
     }
     PythonShell.run('brightness.py', options, function (err) {
@@ -200,7 +205,7 @@ app.post('/brightness', function (req, res) {
 
 app.post('/set_scene', function (req, res) {
     options = {
-    	  args: [req.body.strip_color, req.body.bloom_1_color, req.body.bloom_2_color]
+    	  args: [req.body.strip_color, req.body.bloom_1_color, req.body.bloom_2_color, req.body.strip_2_color]
     	};
     PythonShell.run('scene_color_set.py', options, function (err) {
     	  res.statusCode = 302; 
