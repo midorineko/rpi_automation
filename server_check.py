@@ -1,9 +1,7 @@
 import requests
 import time
 
-f = open("hub.txt", "r")
-hub_name = f.readlines()[-1]
-f.close()
+hub_name = "inouyehub"
 
 site = "http://%s.localtunnel.me" % hub_name
 open_hub = """x-terminal-emulator -e 'bash -c "lt --port 3000 --subdomain %s"'""" % hub_name

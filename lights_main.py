@@ -50,3 +50,13 @@ elif command == 'seattled':
   b.lights(2, 'state', bri=254, on=True, xy=[0.3037, 0.2383])
   b.lights(3, 'state', bri=254, on=True, xy=[0.3088, 0.2531])
   b.lights(4, 'state', bri=254, on=True, xy=[0.1722, 0.0567])
+elif command == 'california_springtime':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.1719, 0.112])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.3136, 0.1438])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.1982, 0.3208])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.4858, 0.2777])
+elif command == 'blooming_heaven':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.2076, 0.1057])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.2956, 0.2372])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.2555, 0.3274])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.2564, 0.145])
