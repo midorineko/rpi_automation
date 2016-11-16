@@ -14,7 +14,7 @@ def check():
             import subprocess
             import shlex
             process = subprocess.Popen(
-                shlex.split(""'bash -c "node /home/pi/rpi_automation/app.js"'), stdout=subprocess.PIPE)
+                shlex.split(""'bash -c "node /home/pi/Desktop/rpi_automation/app.js"'), stdout=subprocess.PIPE)
 
             print (process.returncode)
             process2 = subprocess.Popen(
