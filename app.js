@@ -202,6 +202,21 @@ app.post('/brightness', function (req, res) {
     });
 });
 
+app.get('/brightness/:value', function (req, res) {
+	var options = {
+	  args: [req.params.value.toLowerCase()]
+	};
+    PythonShell.run('brightness.py', options, function (err) {
+    	  res.statusCode = 302;
+		    if(req.body.brightness == '1-255'){
+		  		res.setHeader("Location", "/scenes");
+		    }else{
+		    	res.setHeader("Location", "/");
+		    }
+    	  res.end();
+    });
+});
+
 app.post('/set_scene', function (req, res) {
     options = {
     	  args: [req.body.strip_color, req.body.bloom_1_color, req.body.bloom_2_color, req.body.strip_2_color]
