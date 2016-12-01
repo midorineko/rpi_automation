@@ -1,3 +1,11 @@
+# **UPDATE 12/1/16**
+Hello friends, just a quick updated of what has been going on. I moved to seattle thus my entire home automation was put to a stop. I am now ready to start automating 2.0, using this as a server and API for my Alexa Hub Skill.
+
+If you want to checkout how I am interecting with this server checkout, https://github.com/midorineko/inouye_hub. This is how I am writing the amazon alexa skill, which is being hosted on a lambda. 
+
+How does it all work?
+I use a raspberry pi to physically controll my home. I interact with that pi through a tunnel. I talk to the tunnel through the amazon alexa skill. 'Alexa ask home lights seafoam' 'Alexa ask home welcome jordan' are both sentences which could be used to interact with my home. 
+
 # rpi_automation
 Early start of some rpi home automation
 
