@@ -8,7 +8,7 @@ var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
-})); 
+}));
 
 app.use(express.static(__dirname + '/public'));
 
@@ -45,30 +45,31 @@ app.get('/water/:one', function (req, res) {
 	}else{
 		time = false
 	}
-	if (time){		
+	if (time){
 		var options = {
 		  args: [time]
 		};
 		PythonShell.run('water_one.py', options, function (err) {
-			res.statusCode = 302; 
+			res.statusCode = 302;
 			res.setHeader("Location", "/water");
 			res.end();
 		});
 	}else{
-		res.statusCode = 302; 
+		res.statusCode = 302;
 		res.setHeader("Location", "/water");
 		res.end();
 	}
 });
 
 app.get('/image', function (req, res) {
+	console.log('in image?')
 	res.sendFile(__dirname + '/image.html');
 });
 
 app.get('/image/new', function (req, res) {
 	newImage = function(){
 		PythonShell.run('cam.py', function (err) {
-		res.statusCode = 302; 
+		res.statusCode = 302;
 		res.setHeader("Location", "/image");
 		res.end();
 		});
@@ -86,7 +87,7 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['b_on']
 		};
 		PythonShell.run('TransmitRF.py', options, function (err) {
-			res.statusCode = 302; 
+			res.statusCode = 302;
 			res.setHeader("Location", "/grow");
 			res.end();
 		});
@@ -95,7 +96,7 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['b_off']
 		};
 		PythonShell.run('TransmitRF.py', options, function (err) {
-			res.statusCode = 302; 
+			res.statusCode = 302;
 			res.setHeader("Location", "/grow");
 			res.end();
 		});
@@ -104,7 +105,7 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['on']
 		};
 		PythonShell.run('livolo.py', options, function (err) {
-			res.statusCode = 302; 
+			res.statusCode = 302;
 			res.setHeader("Location", "/");
 			res.end();
 		});
@@ -113,7 +114,7 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['off']
 		};
 		PythonShell.run('livolo.py', options, function (err) {
-			res.statusCode = 302; 
+			res.statusCode = 302;
 			res.setHeader("Location", "/");
 			res.end();
 		});
@@ -122,7 +123,7 @@ app.get('/lights/:switch', function (req, res) {
 		  args: ['off']
 		};
 		PythonShell.run('livolo.py', options, function (err) {
-			res.statusCode = 302; 
+			res.statusCode = 302;
 			res.setHeader("Location", "/scenes");
 			res.end();
 		});
@@ -173,7 +174,7 @@ app.get('/scenes/new/:name', function (req, res) {
 	  args: [req.params.name.toLowerCase()]
 	};
 	PythonShell.run('scene_new.py', options, function (err) {
-		  res.statusCode = 302; 
+		  res.statusCode = 302;
 		  res.setHeader("Location", "/scenes");
 		  res.end();
 	});
@@ -181,7 +182,7 @@ app.get('/scenes/new/:name', function (req, res) {
 
 app.post('/brightness', function (req, res) {
     var options = {}
-    if(req.body.brightness != '1-255'){	
+    if(req.body.brightness != '1-255'){
     	options = {
     	  args: [req.body.brightness]
     	};
@@ -191,7 +192,7 @@ app.post('/brightness', function (req, res) {
     	};
     }
     PythonShell.run('brightness.py', options, function (err) {
-    	  res.statusCode = 302; 
+    	  res.statusCode = 302;
 		    if(req.body.brightness == '1-255'){
 		  		res.setHeader("Location", "/scenes");
 		    }else{
@@ -206,7 +207,7 @@ app.post('/set_scene', function (req, res) {
     	  args: [req.body.strip_color, req.body.bloom_1_color, req.body.bloom_2_color, req.body.strip_2_color]
     	};
     PythonShell.run('scene_color_set.py', options, function (err) {
-    	  res.statusCode = 302; 
+    	  res.statusCode = 302;
     	  res.setHeader("Location", "/scenes");
     	  res.end();
     });
