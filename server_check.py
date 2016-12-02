@@ -1,7 +1,7 @@
 import requests
 import time
 
-hub_name = "inouyehub"
+hub_name = "inouyehub5"
 site = "http://%s.localtunnel.me" % hub_name
 open_hub = """x-terminal-emulator -e 'bash -c "lt --port 3000 --subdomain %s"'""" % hub_name
 
@@ -25,4 +25,4 @@ def check():
 x=1
 while x > 0:
     check()
-    time.sleep(300)
+    time.sleep(30)
