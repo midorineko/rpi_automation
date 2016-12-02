@@ -229,7 +229,6 @@ app.post('/set_scene', function (req, res) {
 });
 
 app.get('/party', function (req, res) {
-	console.log('we party la la la')
     PythonShell.run('party.py', function (err) {
     	  res.statusCode = 302;
     	  res.setHeader("Location", "/");
