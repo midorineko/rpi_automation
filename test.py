@@ -45,9 +45,8 @@ class C:
     		else:
     			print " bad stuff"
 
-
-year, week = nflgame.live.current_year_and_week()
 c = C()
+year, week = nflgame.live.current_year_and_week()
 while game_on:
     games = nflgame.games(year, week)
     for p in games:
