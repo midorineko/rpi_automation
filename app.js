@@ -235,3 +235,11 @@ app.get('/party', function (req, res) {
     	  res.end();
     });
 });
+
+app.get('/nfl', function (req, res) {
+    PythonShell.run('test.py', function (err, py_res) {
+    	res.statusCode = 302;
+    	res.setHeader("Location", "/");
+    	res.end();
+    });
+});

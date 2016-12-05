@@ -55,7 +55,6 @@ while game_on:
           stupid_var = p.nice_score().encode('ascii','ignore').split(" ")
           if stupidest_var == stupid_var:
             print p
-            print "same score"
           elif stupidest_var != stupid_var:
             stupidest_var = stupid_var
             if p.is_home('SEA'):
