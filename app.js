@@ -3,6 +3,7 @@ var PythonShell = require('python-shell');
 var app = express();
 var fs = require('fs');
 var ejs = require('ejs');
+app.use(express.static('public'))
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -234,12 +235,17 @@ app.get('/party', function (req, res) {
     	  res.setHeader("Location", "/");
     	  res.end();
     });
+
 });
 
 app.get('/nfl', function (req, res) {
-    PythonShell.run('test.py', function (err, py_res) {
-    	res.statusCode = 302;
-    	res.setHeader("Location", "/");
-    	res.end();
-    });
+	PythonShell.run('test.py', function (err, results) {
+	});
+	res.statusCode = 302;
+	res.setHeader("Location", "/");
+	res.end();
+});
+
+app.get('/nfl/score', function (req, res) {
+	res.sendFile(__dirname + '/nfl.html');
 });
