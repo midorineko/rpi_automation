@@ -239,7 +239,7 @@ app.get('/party', function (req, res) {
 });
 
 app.get('/nfl', function (req, res) {
-	PythonShell.run('test.py', function (err, results) {
+	PythonShell.run('nfl.py', function (err, results) {
 	});
 	res.statusCode = 302;
 	res.setHeader("Location", "/");
@@ -248,4 +248,8 @@ app.get('/nfl', function (req, res) {
 
 app.get('/nfl/score', function (req, res) {
 	res.sendFile(__dirname + '/nfl.html');
+});
+
+app.get('/nfl/plays', function (req, res) {
+	res.sendFile(__dirname + '/nfl_events.html');
 });

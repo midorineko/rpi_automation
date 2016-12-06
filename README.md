@@ -1,3 +1,6 @@
+# NFL PY
+Alright, things are about to get bigger and better. I had an epiphany, use this api as a way for alexa to talk. Which basically meant I had to actually write an API. Starting with nfl.py. This is actually a server to populate files for me to pull on the alexa side. So I can get alexa to do things based on a server I am controlling. Right now it is going to give us the score and the last 5 plays, but we are going to ideally get 'Game Stream' going, which will stream the entire game and notify you when seahawks score. It is pretty easy to manipulate and can be used to view any team you like!
+
 # **UPDATE 12/1/16**
 Hello friends, just a quick updated of what has been going on. I moved to seattle thus my entire home automation was put to a stop. I am now ready to start automating 2.0, using this as a server and API for my Alexa Hub Skill.
 
