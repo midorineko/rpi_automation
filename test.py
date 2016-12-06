@@ -54,7 +54,7 @@ while game_on:
     games = nflgame.games(year, week)
     plays = nflgame.combine_plays(games)
     for p in plays:
-        if p.team.encode('ascii','ignore') == 'CAR':
+        if p.team.encode('ascii','ignore') == 'SEA':
             if len(p.events) > 0:
                 if p.desc.encode('ascii','ignore').find('Shotgun') == -1:
                     event_plays.append(p.desc.encode('ascii','ignore'))
@@ -64,11 +64,11 @@ while game_on:
         f.write(str(ind+1) + ": " + item + "\n")
         f.close()
     for p in games:
-       if p.nice_score().encode('ascii','ignore').find('CAR') > -1:
+       if p.nice_score().encode('ascii','ignore').find('SEA') > -1:
           stupid_var = p.nice_score().encode('ascii','ignore').split(" ")
           if stupidest_var != stupid_var:
             stupidest_var = stupid_var
-            if p.is_home('CAR'):
+            if p.is_home('SEA'):
                 suck_team = p.away.encode('ascii','ignore')
                 suck_score = p.score_away
                 sea_score = p.score_home
@@ -88,7 +88,7 @@ while game_on:
             f.close()
     time.sleep(5)
 else:
-    if winning_team == 'CAR':
+    if winning_team == 'SEA':
         ending_text = "We won! Congrats everyone! The score was " + current_score
     else:
         ending_text = "We will get them next time! " + current_score
