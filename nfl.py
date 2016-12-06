@@ -71,7 +71,7 @@ class C:
             print("Touchdown")
         pretty_score = "Us: " + str(sea_score) + " Them: " + str(suck_score)
         print pretty_score
-        time.sleep(1)
+        time.sleep(2)
         b.lights(1, 'state', bri=254, on=True, xy=[0.1957, 0.1006])
         b.lights(2, 'state', bri=254, on=True, xy=[0.3037, 0.2383])
         b.lights(3, 'state', bri=254, on=True, xy=[0.3088, 0.2531])
