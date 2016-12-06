@@ -9,6 +9,8 @@ sea_score_last = 0
 suck_score = 0
 suck_score_last = 0
 game_on = True
+winning_team = ''
+current_score = ''
 
 class C:
     def score_method(self, sea_score, sea_score_last, suck_score, suck_score_last):
@@ -66,12 +68,16 @@ while game_on:
             c.score_method(sea_score, sea_score_last, suck_score, suck_score_last)
             sea_score_last = sea_score
             suck_score_last = suck_score
-    game_on = p.playing()
+            game_on = p.playing()
+            winning_team = p.winner.encode('ascii','ignore')
+            current_score = p.nice_score().encode('ascii','ignore')
     time.sleep(5)
 else:
-	winner = p.winner.encode('ascii','ignore')
 	print("Game is over!")
-	if winner == 'SEA':
-		print("we did it congrats everyone!")
+	if winning_team == 'SEA':
+		ending_text = "We won! Congrats everyone! The score was " + current_score
 	else:
-		print("we will get them next time!")
+		ending_text = "We will get them next time! " + current_score
+f = open('nfl.html','w')
+f.write(ending_text + "\n") # python will convert \n to os.linesep
+f.close()
