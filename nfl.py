@@ -71,9 +71,18 @@ class C:
             print("Touchdown")
         pretty_score = "Us: " + str(sea_score) + " Them: " + str(suck_score)
         print pretty_score
+        time.sleep(1)
+        b.lights(1, 'state', bri=254, on=True, xy=[0.1957, 0.1006])
+        b.lights(2, 'state', bri=254, on=True, xy=[0.3037, 0.2383])
+        b.lights(3, 'state', bri=254, on=True, xy=[0.3088, 0.2531])
+        b.lights(4, 'state', bri=254, on=True, xy=[0.1722, 0.0567])
 
 c = C()
 year, week = nflgame.live.current_year_and_week()
+b.lights(1, 'state', bri=254, on=True, xy=[0.1957, 0.1006])
+b.lights(2, 'state', bri=254, on=True, xy=[0.3037, 0.2383])
+b.lights(3, 'state', bri=254, on=True, xy=[0.3088, 0.2531])
+b.lights(4, 'state', bri=254, on=True, xy=[0.1722, 0.0567])
 while game_on:
     games = nflgame.games(year, week)
     plays = nflgame.combine_plays(games)
