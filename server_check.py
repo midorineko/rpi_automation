@@ -12,17 +12,23 @@ def check():
         if r.status_code != 200:
             import subprocess
             import shlex
-            process = subprocess.Popen(shlex.split("""x-terminal-emulator -e 'bash -c "node /home/pi/rpi_automation/app.js"'"""), stdout=subprocess.PIPE)
+            process = subprocess.Popen(shlex.split("""x-terminal-emulator -e 'bash -c "node /home/pi/Desktop/rpi_automation/app.js"'"""), stdout=subprocess.PIPE)
 
 
             print (process.returncode)
-            process2 = subprocess.Popen(shlex.split(open_hub), stdout=subprocess.PIPE)
-
-            print (process2.returncode)
+	    def pross2():
+            	process2 = subprocess.Popen(shlex.split(open_hub), stdout=subprocess.PIPE)
+		time.sleep(3)
+                v = requests.head("http://inouyehub5.localtunnel.me")
+		print (v.status_code)
+                if v.status_code != 200:
+                  pross2()
+	    pross2()
+	
     except requests.ConnectionError:
         print("failed to connect")
 
 x=1
 while x > 0:
     check()
-    time.sleep(15)
+    time.sleep(5)
