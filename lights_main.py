@@ -60,3 +60,28 @@ elif command == 'blooming_heaven':
   b.lights(2, 'state', bri=254, on=True, xy=[0.2956, 0.2372])
   b.lights(3, 'state', bri=254, on=True, xy=[0.2555, 0.3274])
   b.lights(4, 'state', bri=254, on=True, xy=[0.2564, 0.145])
+elif command == 'morning':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.3342, 0.3605])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.3342, 0.3605])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.3342, 0.3605])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.3538, 0.3794])
+elif command == 'blue_raspberry':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.3564, 0.159])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.3442, 0.2055])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.2228, 0.348])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.1611, 0.3529])
+elif command == 'blue_raspberry':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.6903, 0.3074])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.5878, 0.4001])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.5019, 0.4751])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.4953, 0.4368])
+elif command == 'hawaiian_sun_set':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.6903, 0.3074])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.5878, 0.4001])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.5019, 0.4751])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.4953, 0.4368])
+elif command == 'seahawks':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.1637, 0.3522])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.169, 0.1308])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.1497, 0.1939])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.2344, 0.5274])

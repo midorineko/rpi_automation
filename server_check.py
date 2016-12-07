@@ -25,4 +25,4 @@ def check():
 x=1
 while x > 0:
     check()
-    time.sleep(30)
+    time.sleep(15)
