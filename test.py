@@ -12,7 +12,6 @@ game_on = True
 winning_team = ''
 current_score = ''
 event_plays=[]
-
 class C:
     def score_method(self, sea_score, sea_score_last, suck_score, suck_score_last):
         cheer_time = True
@@ -51,7 +50,7 @@ class C:
 c = C()
 year, week = nflgame.live.current_year_and_week()
 while game_on:
-    games = nflgame.games(year, week)
+    games = nflgame.games(year, 13)
     plays = nflgame.combine_plays(games)
     for p in plays:
         if p.team.encode('ascii','ignore') == 'SEA':

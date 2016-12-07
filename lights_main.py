@@ -70,11 +70,6 @@ elif command == 'blue_raspberry':
   b.lights(2, 'state', bri=254, on=True, xy=[0.3442, 0.2055])
   b.lights(3, 'state', bri=254, on=True, xy=[0.2228, 0.348])
   b.lights(4, 'state', bri=254, on=True, xy=[0.1611, 0.3529])
-elif command == 'blue_raspberry':
-  b.lights(1, 'state', bri=254, on=True, xy=[0.6903, 0.3074])
-  b.lights(2, 'state', bri=254, on=True, xy=[0.5878, 0.4001])
-  b.lights(3, 'state', bri=254, on=True, xy=[0.5019, 0.4751])
-  b.lights(4, 'state', bri=254, on=True, xy=[0.4953, 0.4368])
 elif command == 'hawaiian_sun_set':
   b.lights(1, 'state', bri=254, on=True, xy=[0.6903, 0.3074])
   b.lights(2, 'state', bri=254, on=True, xy=[0.5878, 0.4001])
