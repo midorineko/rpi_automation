@@ -80,3 +80,13 @@ elif command == 'seahawks':
   b.lights(2, 'state', bri=254, on=True, xy=[0.169, 0.1308])
   b.lights(3, 'state', bri=254, on=True, xy=[0.1497, 0.1939])
   b.lights(4, 'state', bri=254, on=True, xy=[0.2344, 0.5274])
+elif command == 'gaming':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.6064, 0.3085])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.6883, 0.3065])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.6883, 0.3065])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.6066, 0.3095])
+elif command == 'night_smoke':
+  b.lights(1, 'state', bri=1, on=True, xy=[0.3333, 0.5004])
+  b.lights(2, 'state', bri=160, on=True, xy=[0.3243, 0.5028])
+  b.lights(3, 'state', bri=1, on=True, xy=[0.3229, 0.493])
+  b.lights(4, 'state', bri=1, on=True, xy=[0.3343, 0.5005])

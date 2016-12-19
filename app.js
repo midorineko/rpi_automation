@@ -253,3 +253,19 @@ app.get('/nfl/score', function (req, res) {
 app.get('/nfl/plays', function (req, res) {
 	res.sendFile(__dirname + '/nfl_events.html');
 });
+
+app.get('/curtain/open', function (req, res) {
+	PythonShell.run('servo_open.py', function (err, results) {
+	});
+	res.statusCode = 302;
+	res.setHeader("Location", "/");
+	res.end();
+});
+
+app.get('/curtaim/close', function (req, res) {
+	PythonShell.run('servo_close.py', function (err, results) {
+	});
+	res.statusCode = 302;
+	res.setHeader("Location", "/");
+	res.end();
+});

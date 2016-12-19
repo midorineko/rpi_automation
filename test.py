@@ -50,7 +50,9 @@ class C:
 c = C()
 year, week = nflgame.live.current_year_and_week()
 while game_on:
-    games = nflgame.games(year, 13)
+    games = nflgame.games(year, week)
+    if len(games) ==0:
+        games = nflgame.games(year, week-1)
     plays = nflgame.combine_plays(games)
     for p in plays:
         if p.team.encode('ascii','ignore') == 'SEA':
