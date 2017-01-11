@@ -10,7 +10,7 @@ f.close()
 if last_line == 'open':
   SERVO = 17
   pi = pigpio.pi()
-  pi.set_servo_pulsewidth(SERVO, 2000)
+  pi.set_servo_pulsewidth(SERVO, 1000)
   time.sleep(1.53)
   pi.set_servo_pulsewidth(SERVO, 1500)
   f = open("blinds.txt", "w")
