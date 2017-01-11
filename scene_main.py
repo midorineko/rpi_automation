@@ -92,3 +92,9 @@ elif command == 'night_smoke':
   b.lights(2, 'state', bri=160, on=True, xy=[0.3243, 0.5028])
   b.lights(3, 'state', bri=1, on=True, xy=[0.3229, 0.493])
   b.lights(4, 'state', bri=1, on=True, xy=[0.3343, 0.5005])
+elif command == 'night' || 'knight' || 'sleep':
+  b.lights(1, 'state', on=False)
+  b.lights(2, 'state', on=False)
+  b.lights(3, 'state', on=False)
+  b.lights(4, 'state', on=False)
+  os.system('python blinds_close.py')
