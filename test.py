@@ -55,7 +55,7 @@ while game_on:
         games = nflgame.games(year, week-1)
     plays = nflgame.combine_plays(games)
     for p in plays:
-        if p.team.encode('ascii','ignore') == 'SEA':
+        if p.team.encode('ascii','ignore') == 'SEA' or p.team.encode('ascii','ignore') == 'ARI':
             if len(p.events) > 0:
                 if p.desc.encode('ascii','ignore').find('Shotgun') == -1:
                     event_plays.append(p.desc.encode('ascii','ignore'))

@@ -255,15 +255,15 @@ app.get('/nfl/plays', function (req, res) {
 });
 
 app.get('/curtain/open', function (req, res) {
-	PythonShell.run('servo_open.py', function (err, results) {
+	PythonShell.run('blinds_open.py', function (err, results) {
 	});
 	res.statusCode = 302;
 	res.setHeader("Location", "/");
 	res.end();
 });
 
-app.get('/curtaim/close', function (req, res) {
-	PythonShell.run('servo_close.py', function (err, results) {
+app.get('/curtain/close', function (req, res) {
+	PythonShell.run('blinds_close.py', function (err, results) {
 	});
 	res.statusCode = 302;
 	res.setHeader("Location", "/");
