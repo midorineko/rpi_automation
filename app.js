@@ -133,7 +133,7 @@ app.get('/lights/:switch', function (req, res) {
 		  args: [req.params.switch.toLowerCase()]
 		};
 		inputArgs=req.params.switch.toLowerCase()
-		PythonShell.run('lights_main.py', options, function (err) {
+		PythonShell.run('scene_main.py', options, function (err) {
 			  res.statusCode = 302;
 			  var myarr = ['led_off', 'lights_off', 'lights_on', 'all_off', 'led_off', 'led_on'];
 			  var route_main = (myarr.indexOf(inputArgs) > -1);
