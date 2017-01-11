@@ -1,4 +1,5 @@
 import sys
+import os
 from qhue import Bridge
 b = Bridge("192.168.0.102", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
 lights = b.lights
@@ -65,6 +66,7 @@ elif command == 'morning':
   b.lights(2, 'state', bri=254, on=True, xy=[0.3342, 0.3605])
   b.lights(3, 'state', bri=254, on=True, xy=[0.3342, 0.3605])
   b.lights(4, 'state', bri=254, on=True, xy=[0.3538, 0.3794])
+  os.system("python blinds_open.py")
 elif command == 'blue_raspberry':
   b.lights(1, 'state', bri=254, on=True, xy=[0.3564, 0.159])
   b.lights(2, 'state', bri=254, on=True, xy=[0.3442, 0.2055])
