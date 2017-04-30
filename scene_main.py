@@ -1,7 +1,7 @@
 import sys
 import os
 from qhue import Bridge
-b = Bridge("192.168.0.102", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
+b = Bridge("192.168.0.101", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
 lights = b.lights
 
 command = sys.argv[-1]
@@ -31,7 +31,7 @@ elif command == 'chill':
 	b.lights(2, 'state', bri=255, on=True, xy=[0.3069, 0.3152])
 	b.lights(3, 'state', bri=255, on=True, xy=[0.3069, 0.3152])
 	b.lights(4, 'state', bri=255, on=True, xy=[0.3069, 0.3152])
-elif command == 'seafoam':
+elif command == 'sea_foam':
   b.lights(1, 'state', bri=255, on=True, xy=[0.1638, 0.3531])
   b.lights(2, 'state', bri=255, on=True, xy=[0.2263, 0.3402])
   b.lights(3, 'state', bri=255, on=True, xy=[0.1618, 0.3365])
@@ -92,14 +92,27 @@ elif command == 'night_smoke':
   b.lights(2, 'state', bri=160, on=True, xy=[0.3243, 0.5028])
   b.lights(3, 'state', bri=1, on=True, xy=[0.3229, 0.493])
   b.lights(4, 'state', bri=1, on=True, xy=[0.3343, 0.5005])
-elif command == 'night' or 'knight' or 'sleep':
+elif command == 'night':
   b.lights(1, 'state', on=False)
   b.lights(2, 'state', on=False)
   b.lights(3, 'state', on=False)
   b.lights(4, 'state', on=False)
   os.system('python blinds_close.py')
-elif command == 'bugger':
-  b.lights(1, 'state', bri=254, on=True, xy=[0.2002, 0.1055])
-  b.lights(2, 'state', bri=254, on=True, xy=[0.3884, 0.3324])
-  b.lights(3, 'state', bri=254, on=True, xy=[0.3088, 0.3025])
-  b.lights(4, 'state', bri=254, on=True, xy=[0.6414, 0.3272])
+elif command == 'ice':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.3048, 0.3149])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.3069, 0.3152])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.3048, 0.3149])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.3073, 0.3156])
+  os.system('python blinds_close.py')
+elif command == 'kitty_combo':
+  b.lights(1, 'state', bri=223, on=True, xy=[0.1638, 0.3531])
+  b.lights(2, 'state', bri=166, on=True, xy=[0.2318, 0.3403])
+  b.lights(3, 'state', bri=100, on=True, xy=[0.1618, 0.3365])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.3426, 0.1703])
+  os.system('python blinds_close.py')
+elif command == 'grapevine':
+  b.lights(1, 'state', bri=173, on=True, xy=[0.1639, 0.3533])
+  b.lights(2, 'state', bri=101, on=True, xy=[0.6515, 0.3437])
+  b.lights(3, 'state', bri=88, on=True, xy=[0.141, 0.1122])
+  b.lights(4, 'state', bri=114, on=True, xy=[0.2508, 0.0948])
+  os.system('python blinds_close.py')
