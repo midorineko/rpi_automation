@@ -92,9 +92,14 @@ elif command == 'night_smoke':
   b.lights(2, 'state', bri=160, on=True, xy=[0.3243, 0.5028])
   b.lights(3, 'state', bri=1, on=True, xy=[0.3229, 0.493])
   b.lights(4, 'state', bri=1, on=True, xy=[0.3343, 0.5005])
-elif command == 'night' || 'knight' || 'sleep':
+elif command == 'night' or 'knight' or 'sleep':
   b.lights(1, 'state', on=False)
   b.lights(2, 'state', on=False)
   b.lights(3, 'state', on=False)
   b.lights(4, 'state', on=False)
   os.system('python blinds_close.py')
+elif command == 'bugger':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.2002, 0.1055])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.3884, 0.3324])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.3088, 0.3025])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.6414, 0.3272])
