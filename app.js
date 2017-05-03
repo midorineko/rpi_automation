@@ -170,6 +170,12 @@ app.get('/scenes', function (req, res) {
 	});
 });
 
+var request = require('request');
+app.get('/weather', function (req, res) {
+	res.send("I am going to parse the weather and leave it here like a boss :3!");
+	res.end();
+});
+
 app.get('/scenes/new/:name', function (req, res) {
 	var options = {
 	  args: [req.params.name.toLowerCase()]
