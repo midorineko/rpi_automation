@@ -116,3 +116,9 @@ elif command == 'grapevine':
   b.lights(3, 'state', bri=88, on=True, xy=[0.141, 0.1122])
   b.lights(4, 'state', bri=114, on=True, xy=[0.2508, 0.0948])
   os.system('python blinds_close.py')
+elif command == 'purple_rain':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.2084, 0.1061])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.1658, 0.0908])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.1658, 0.0908])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.2283, 0.1202])
+  os.system('python blinds_open.py')
