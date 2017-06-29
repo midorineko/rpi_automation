@@ -3,7 +3,7 @@ from qhue import Bridge
 from rgb_cie import Converter
 converter = Converter()
 
-b = Bridge("192.168.0.100", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
+b = Bridge("192.168.0.101", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
 
 
 strip_bri   = b.lights[1]()['state']['bri']

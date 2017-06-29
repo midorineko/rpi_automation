@@ -1,6 +1,6 @@
 import sys
 from qhue import Bridge
-b = Bridge("192.168.0.100", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
+b = Bridge("192.168.0.101", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
 
 lights = b.lights
 
