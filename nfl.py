@@ -1,9 +1,14 @@
 import nflgame
 import time
 import sys
-import sys
+import os
 from qhue import Bridge
-b = Bridge("192.168.0.101", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
+
+f = open("hue_id.txt", "r")
+hue_id = f.readlines()[-1].rstrip()
+f.close()
+
+b = Bridge(hue_id, "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
 lights = b.lights
 
 suck_team = ""

@@ -1,9 +1,15 @@
 import sys
 from qhue import Bridge
 from rgb_cie import Converter
+import os
+
 converter = Converter()
 
-b = Bridge("192.168.0.101", "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
+f = open("hue_id.txt", "r")
+hue_id = f.readlines()[-1].rstrip()
+f.close()
+
+b = Bridge(hue_id, "elbLovRPUcHaqss904iEJMH9LZrRwsvFeOKSfvOP")
 
 
 strip_bri   = b.lights[1]()['state']['bri']
