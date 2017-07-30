@@ -157,16 +157,18 @@ app.get('/scenes', function (req, res) {
 	     scenes.push(line)
 	})
 	PythonShell.run('current_hue_status.py', function (err, results) {
-	  hue_status = results[0].split(',');
-	  hue_status.shift();
-	  strip_bri = hue_status[0]/254.0 * 100
-	  bloom_1_bri = hue_status[1]/254.0 * 100
-	  bloom_2_bri = hue_status[2]/254.0 * 100
-	  strip_2_bri = hue_status[3]/254.0 * 100
-	  fs.readFile('scene.html', 'utf-8', function(err, content) {
-	    var renderedHtml = ejs.render(content, {scenes: scenes, hue_status: hue_status, strip_bri: strip_bri, bloom_1_bri: bloom_1_bri, bloom_2_bri: bloom_2_bri, strip_2_bri: strip_2_bri});  //get redered HTML code
-	    res.end(renderedHtml);
-	  });
+	  if (results){
+		  hue_status = results[0].split(',');
+		  hue_status.shift();
+		  strip_bri = hue_status[0]/254.0 * 100
+		  bloom_1_bri = hue_status[1]/254.0 * 100
+		  bloom_2_bri = hue_status[2]/254.0 * 100
+		  strip_2_bri = hue_status[3]/254.0 * 100
+		  fs.readFile('scene.html', 'utf-8', function(err, content) {
+		    var renderedHtml = ejs.render(content, {scenes: scenes, hue_status: hue_status, strip_bri: strip_bri, bloom_1_bri: bloom_1_bri, bloom_2_bri: bloom_2_bri, strip_2_bri: strip_2_bri});  //get redered HTML code
+		    res.end(renderedHtml);
+		  });
+	  }
 	});
 });
 

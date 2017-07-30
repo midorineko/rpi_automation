@@ -1,8 +1,11 @@
-a {
+.scene_selection {
+      text-align: center;
 	text-decoration: none;
 	color: #6669FF;
-	background-color: #36FFAB;
+	border: 1px solid #36FFAA;
 	font-size: 24px;
 	padding: 10px;
-	border-radius: 50px;
+      width: 48%;
+      height: 100px;
+      float: left;
 }

@@ -4,9 +4,9 @@
   <title>Steven's Home Automation Hub</title>
 </head>
 
-<table>
+<table style="width: 100%;">
 <% for(var i=0; i < scenes.length; i++) { %>
-     <a style="margin-right: 10px;" href=/lights/<%= scenes[i] %>><%= scenes[i] %></a>
+     <a  class="scene_selection" href=/lights/<%= scenes[i] %>><%= scenes[i] %></a>
 <% } %>
 </table>
 
