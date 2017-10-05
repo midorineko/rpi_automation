@@ -18,3 +18,5 @@ ice
 kitty_combo
 grapevine
 purple_rain
+fiji
+with_level_up

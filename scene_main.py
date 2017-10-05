@@ -127,3 +127,15 @@ elif command == 'purple_rain':
   b.lights(3, 'state', bri=254, on=True, xy=[0.1658, 0.0908])
   b.lights(4, 'state', bri=254, on=True, xy=[0.2283, 0.1202])
   os.system('python blinds_open.py')
+elif command == 'fiji':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.1637, 0.3522])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.221, 0.3403])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.1618, 0.3356])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.1637, 0.3531])
+  os.system('python blinds_close.py')
+elif command == 'with_level_up':
+  b.lights(1, 'state', bri=254, on=True, xy=[0.4437, 0.4956])
+  b.lights(2, 'state', bri=254, on=True, xy=[0.425, 0.5118])
+  b.lights(3, 'state', bri=254, on=True, xy=[0.4337, 0.5037])
+  b.lights(4, 'state', bri=254, on=True, xy=[0.4436, 0.4926])
+  os.system('python blinds_open.py')
