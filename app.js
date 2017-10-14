@@ -4,7 +4,8 @@ var app = express();
 var fs = require('fs');
 var ejs = require('ejs');
 app.use(express.static('public'))
-
+const WebSocket = require('ws');
+const ws = new WebSocket('http://192.168.0.110:81');
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -15,6 +16,16 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/ledgrid', function (req, res) {
+	res.sendFile(__dirname + '/ledgrid.html');
+});
+
+app.get('/websocket_direct', function (req, res) {
+	console.log('we sent it');
+	ws.send("LED");
+	res.sendFile(__dirname + '/websocket.html');
 });
 
 app.get('/grow', function (req, res) {

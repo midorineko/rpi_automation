@@ -1,0 +1,77 @@
+<head>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+</head>
+
+<input type="submit" value="Clear Board" id='clear' />
+
+<input type="color" id="cPick" style="width: 25%; margin-left: 30%;">
+<!-- grid builder start -->
+<script>
+	var lastClicked;
+	var grid = clickableGrid(7,6,function(el,row,col,i){
+		var hex_color = $('#cPick').val();
+	    console.log("You clicked on element:",el);
+	    console.log("You clicked on row:",row);
+	    console.log("You clicked on col:",col);
+	    console.log("You clicked on item #:",i);
+	    console.log("hex color: " + hex_color);
+	    var cur_led = parseInt($(el).attr('id')) - 1;
+	    $(el).css("background-color", hex_color);
+	    webSocket.send("led_set:"+hex_color+":"+cur_led);
+	    el.className='clicked';
+	    if (lastClicked) lastClicked.className='';
+	    lastClicked = el;
+	});
+
+	document.body.appendChild(grid);
+	     
+	function clickableGrid( rows, cols, callback ){
+	    var i=0;
+	    var grid = document.createElement('table');
+	    grid.className = 'grid';
+	    for (var r=0;r<rows;++r){
+	        var tr = grid.appendChild(document.createElement('tr'));
+	        for (var c=0;c<cols;++c){
+	            var cell = tr.appendChild(document.createElement('td'));
+	            ++i
+	            if(r%2!=0){
+	            	last_col_int = (r+1) * cols;
+	            	new_td_val = last_col_int - c;
+					cell.innerHTML = new_td_val
+	            	cell.setAttribute("id", new_td_val.toString());
+	            }else{
+					cell.innerHTML = i;
+	            	cell.setAttribute("id", i.toString());
+	            }
+	            cell.addEventListener('click',(function(el,r,c,i){
+	                return function(){
+	                    callback(el,r,c,i);
+	                }
+	            })(cell,r,c,i),false);
+	        }
+	    }
+	    return grid;
+	}
+</script>
+<!-- style for grid -->
+<style>
+	.grid { margin:1em auto; border-collapse:collapse }
+	.grid td {
+	    cursor:pointer;
+	    width:30px; height:30px;
+	    border:1px solid #ccc;
+	    text-align:center;
+	    font-family:sans-serif; font-size:13px
+	}
+</style>
+<!-- websocket sending start -->
+<script>
+var webSocket = new WebSocket('ws://192.168.0.110:81/');
+
+$('#clear').on('click',function(){
+	// var text = document.getElementById("userinput").value;
+	$("td").css("background-color", 'fff');
+	webSocket.send("clear");
+	return false;
+})
+</script> 
