@@ -3,6 +3,7 @@
 </head>
 
 <input type="submit" value="Clear Board" id='clear' />
+<input type="submit" value="Send Json" id='json_send' />
 
 <input type="color" id="cPick" style="width: 25%; margin-left: 30%;">
 <!-- grid builder start -->
@@ -66,12 +67,17 @@
 </style>
 <!-- websocket sending start -->
 <script>
-var webSocket = new WebSocket('ws://192.168.0.110:81/');
+var webSocket = new WebSocket('ws://192.168.0.115:81/');
 
 $('#clear').on('click',function(){
 	// var text = document.getElementById("userinput").value;
 	$("td").css("background-color", 'fff');
 	webSocket.send("clear");
+	return false;
+})
+$('#json_send').on('click',function(){
+	var led_obj = [{'1': '#2ff069'}, {'5': '#8080ff'}, {'10': '#00ffff'}, {'40': '#00ffff'}, {'20': '#00ffff'}, {'7': '#8080ff'}, {'33': '#2ff069'}]
+	webSocket.send(JSON.stringify(led_obj));
 	return false;
 })
 </script> 
