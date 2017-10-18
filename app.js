@@ -3,9 +3,11 @@ var PythonShell = require('python-shell');
 var app = express();
 var fs = require('fs');
 var ejs = require('ejs');
+const util = require('util');
+
 app.use(express.static('public'))
-const WebSocket = require('ws');
-const ws = new WebSocket('http://192.168.0.110:81');
+// const WebSocket = require('ws');
+// const ws = new WebSocket('http://192.168.0.110:81');
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -22,11 +24,11 @@ app.get('/ledgrid', function (req, res) {
 	res.sendFile(__dirname + '/ledgrid.html');
 });
 
-app.get('/websocket_direct', function (req, res) {
-	console.log('we sent it');
-	ws.send("LED");
-	res.sendFile(__dirname + '/websocket.html');
-});
+// app.get('/websocket_direct', function (req, res) {
+// 	console.log('we sent it');
+// 	ws.send("LED");
+// 	res.sendFile(__dirname + '/websocket.html');
+// });
 
 app.get('/grow', function (req, res) {
 	res.sendFile(__dirname + '/grow.html');
@@ -168,6 +170,7 @@ app.get('/scenes', function (req, res) {
 	     scenes.push(line)
 	})
 	PythonShell.run('current_hue_status.py', function (err, results) {
+		console.log(err);
 	  if (results){
 		  hue_status = results[0].split(',');
 		  hue_status.shift();
@@ -197,6 +200,19 @@ app.get('/scenes/new/:name', function (req, res) {
 	PythonShell.run('scene_new.py', options, function (err) {
 		  res.statusCode = 302;
 		  res.setHeader("Location", "/scenes");
+		  res.end();
+	});
+});
+
+app.post('/save_json_scene', function (req, res) {
+	console.log(req.body);
+	var options = {
+	  args: [req.body['json_str'], req.body['name']]
+	};
+	PythonShell.run('save_json_scene.py', options, function (err) {
+		console.log(options)
+		  res.statusCode = 302;
+		  res.setHeader("Location", "/ledgrid");
 		  res.end();
 	});
 });

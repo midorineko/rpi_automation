@@ -1,34 +1,61 @@
 <head>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 
 <input type="submit" value="Clear Board" id='clear' />
 <input type="submit" value="Send Json" id='json_send' />
+<input type="submit" value="Save Json" id='json_save' />
+<input type="text" placeholder="Name?" id='json_name' />
+<div>
+	<input type="checkbox" id="tick_leds" name="tick_leds" value="Tick LEDs?">
+	<label for="tick_leds">Tick LEDs?</label>
+</div>
+<div>
+	<input type="text" id="time_loop" name="time_loop" value="1">
+	<label for="time_loop">Loops?</label>
+</div>
+<div id='grid_div'>
+</div>
 
-<input type="color" id="cPick" style="width: 25%; margin-left: 30%;">
+<input type="color" id="cPick" style="width: 27%; margin-left: 36%;">
+
+<table id="selected_table" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Led ID</th>
+      <th>HEX Color</th>
+      <th>Add Row</th>
+      <th>Delete Row</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
 <!-- grid builder start -->
 <script>
 	var lastClicked;
 	var grid = clickableGrid(7,6,function(el,row,col,i){
 		var hex_color = $('#cPick').val();
 	    console.log("You clicked on element:",el);
-	    console.log("You clicked on row:",row);
-	    console.log("You clicked on col:",col);
-	    console.log("You clicked on item #:",i);
 	    console.log("hex color: " + hex_color);
 	    var cur_led = parseInt($(el).attr('id')) - 1;
 	    $(el).css("background-color", hex_color);
 	    webSocket.send("led_set:"+hex_color+":"+cur_led);
 	    el.className='clicked';
+
+	    $('#selected_table > tbody:last-child').append("<tr><td><input value='"+cur_led+"' /></td><td><input value='"+hex_color+"' /></td><td><button class='add_button'>+</button></td><td><button class='delete_button'>-</button></td></tr>"); //appending table used to send/save json
+
 	    if (lastClicked) lastClicked.className='';
 	    lastClicked = el;
 	});
 
-	document.body.appendChild(grid);
+	document.getElementById("grid_div").appendChild(grid);
 	     
 	function clickableGrid( rows, cols, callback ){
 	    var i=0;
 	    var grid = document.createElement('table');
+	    grid.setAttribute("id", "grid_table");
 	    grid.className = 'grid';
 	    for (var r=0;r<rows;++r){
 	        var tr = grid.appendChild(document.createElement('tr'));
@@ -76,8 +103,77 @@ $('#clear').on('click',function(){
 	return false;
 })
 $('#json_send').on('click',function(){
-	var led_obj = [{'1': '#2ff069'}, {'5': '#8080ff'}, {'10': '#00ffff'}, {'40': '#00ffff'}, {'20': '#00ffff'}, {'7': '#8080ff'}, {'33': '#2ff069'}]
-	webSocket.send(JSON.stringify(led_obj));
+	var json_arr = [];
+	var json_obj = {}
+	var tick_leds = $('#tick_leds:checkbox:checked').length > 0;
+	json_obj[$('#time_loop').val()] = 'times'
+	json_arr.push(json_obj);
+	$('#selected_table > tbody > tr').each(function() {
+		json_obj = {}
+		var row = $(this)
+		var led_id = row.find('input')[0].value
+		var box_id = parseInt(led_id) + 1
+		var hex_color = row.find('input')[1].value
+		if(hex_color == 'tick'){
+			tick_leds = true;
+		}else if(hex_color == 'solid'){
+			tick_leds = false;
+		}else{
+			$("#"+box_id+"").css("background-color", hex_color);
+			json_obj[led_id] = hex_color
+			json_arr.push(json_obj)
+			if(tick_leds){
+				json_obj = {};
+				json_obj['300'] = 'delay';
+				json_arr.push(json_obj);
+			}
+		}
+	});
+	webSocket.send(JSON.stringify(json_arr));
+	return false;
+})
+//table manipulation
+$('body').on('click', '.delete_button', function() {
+	$(this).parent().parent().remove();
+});
+$('body').on('click', '.add_button', function() {
+	$("<tr><td><input value='300' /></td><td><input value='delay' /></td><td><button class='add_button'>+</button></td><td><button class='delete_button'>-</button></td></tr>").insertAfter($(this).closest('tr'));
+});
+//json saving
+$('#json_save').on('click',function(){
+	var json_arr = [];
+	var json_obj = {}
+	var tick_leds = $('#tick_leds:checkbox:checked').length > 0;
+	json_obj[$('#time_loop').val()] = 'times'
+	json_arr.push(json_obj);
+	$('#selected_table > tbody > tr').each(function() {
+		json_obj = {}
+		var row = $(this)
+		var led_id = row.find('input')[0].value
+		var box_id = parseInt(led_id) + 1
+		var hex_color = row.find('input')[1].value
+		if(hex_color == 'tick'){
+			tick_leds = true;
+		}else if(hex_color == 'solid'){
+			tick_leds = false;
+		}else{
+			$("#"+box_id+"").css("background-color", hex_color);
+			json_obj[led_id] = hex_color
+			json_arr.push(json_obj)
+			if(tick_leds){
+				json_obj = {};
+				json_obj['300'] = 'delay';
+				json_arr.push(json_obj);
+			}
+		}
+	});
+	$.ajax({
+	  type: "POST",
+	  url: '/save_json_scene',
+	  data: {json_str: JSON.stringify(json_arr), name: $('#json_name').val()},
+	  success: console.log('Scene Saved'),
+	  dataType: 'json'
+	});
 	return false;
 })
 </script> 
