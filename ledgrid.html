@@ -94,7 +94,7 @@
 </style>
 <!-- websocket sending start -->
 <script>
-var webSocket = new WebSocket('ws://192.168.0.115:81/');
+var webSocket = new WebSocket('ws://192.168.0.110:81/');
 
 $('#clear').on('click',function(){
 	// var text = document.getElementById("userinput").value;
@@ -104,8 +104,9 @@ $('#clear').on('click',function(){
 })
 $('#json_send').on('click',function(){
 	var json_arr = [];
-	var json_obj = {}
+	var json_obj = {};
 	var tick_leds = $('#tick_leds:checkbox:checked').length > 0;
+	var tick_count = '300';
 	json_obj[$('#time_loop').val()] = 'times'
 	json_arr.push(json_obj);
 	$('#selected_table > tbody > tr').each(function() {
@@ -116,6 +117,7 @@ $('#json_send').on('click',function(){
 		var hex_color = row.find('input')[1].value
 		if(hex_color == 'tick'){
 			tick_leds = true;
+			tick_count = led_id.toString();
 		}else if(hex_color == 'solid'){
 			tick_leds = false;
 		}else{
@@ -124,7 +126,7 @@ $('#json_send').on('click',function(){
 			json_arr.push(json_obj)
 			if(tick_leds){
 				json_obj = {};
-				json_obj['300'] = 'delay';
+				json_obj[tick_count] = 'delay';
 				json_arr.push(json_obj);
 			}
 		}
