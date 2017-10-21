@@ -110,7 +110,9 @@ $('.led_sockets').each(function( index ) {
 console.log(started_sockets)
 $('#clear').on('click',function(){
 	$("td").css("background-color", 'fff');
-	webSocket.send("clear");
+	for(i=0; i<started_sockets.length; i++){
+		started_sockets[i].send("clear");
+	}
 	return false;
 })
 $('#json_send').on('click',function(){
@@ -157,10 +159,11 @@ $('body').on('click', '.add_button', function() {
 //json saving
 $('#json_save').on('click',function(){
 	var json_arr = [];
-	var json_obj = {}
+	var json_obj = {};
+	var tick_count = '300;'
 	var tick_leds = $('#tick_leds:checkbox:checked').length > 0;
-	json_obj[$('#time_loop').val()] = 'times'
-	json_arr.push(json_obj);
+	// json_obj[$('#time_loop').val()] = 'times'
+	// json_arr.push(json_obj);
 	$('#selected_table > tbody > tr').each(function() {
 		json_obj = {}
 		var row = $(this)
@@ -169,6 +172,7 @@ $('#json_save').on('click',function(){
 		var hex_color = row.find('input')[1].value
 		if(hex_color == 'tick'){
 			tick_leds = true;
+			tick_count = led_id;
 		}else if(hex_color == 'solid'){
 			tick_leds = false;
 		}else{
@@ -177,7 +181,7 @@ $('#json_save').on('click',function(){
 			json_arr.push(json_obj)
 			if(tick_leds){
 				json_obj = {};
-				json_obj['300'] = 'delay';
+				json_obj[tick_count] = 'delay';
 				json_arr.push(json_obj);
 			}
 		}
