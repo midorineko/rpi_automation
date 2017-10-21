@@ -1,0 +1,40 @@
+<html>
+<head>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <title>Steven's Home Automation Hub</title>
+</head>
+
+<% for(var i=0; i < led_sockets.length; i++) { %>
+	<input class='led_sockets' style="width: 100%; text-align: center;" value="<%= led_sockets[i] %>"/>
+<% } %>
+<table>
+  <% for(var i=0; i < scenes.length; i++) { %>
+       <div id="<%= i %>" class="scene_selection" style="cursor: pointer;"><%= scenes[i].split("=")[0] %>
+       		<span id="<%= i %>_json" style='display: none;'><%= scenes[i].split("=")[1] %></span>
+       </div>
+  <% } %>
+</table>
+
+<br>
+<br>
+
+<script type="text/javascript">
+	var started_sockets = [];
+	var count = 0;
+	$('.led_sockets').each(function( index ) {
+	  var socket = ["socket_"+count] 
+	  socket[0] = new WebSocket($(this).val());
+	  started_sockets.push(socket[0])
+	  count++;
+	});
+	$('.scene_selection').on('click', function(){
+		var clicked = $(this).attr('id');
+		var json_id = '#'+clicked + '_json';
+		var json_val = $(json_id).html();
+		for(i=0; i<started_sockets.length; i++){
+			started_sockets[i].send(json_val);
+		}
+		return false;
+	})	
+</script>

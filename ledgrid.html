@@ -2,7 +2,9 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
-
+<% for(var i=0; i < led_sockets.length; i++) { %>
+	<input class='led_sockets' style="width: 100%; text-align: center;" value="<%= led_sockets[i] %>"/>
+<% } %>
 <input type="submit" value="Clear Board" id='clear' />
 <input type="submit" value="Send Json" id='json_send' />
 <input type="submit" value="Save Json" id='json_save' />
@@ -41,10 +43,13 @@
 	    console.log("hex color: " + hex_color);
 	    var cur_led = parseInt($(el).attr('id')) - 1;
 	    $(el).css("background-color", hex_color);
-	    webSocket.send("led_set:"+hex_color+":"+cur_led);
 	    el.className='clicked';
 
-	    $('#selected_table > tbody:last-child').append("<tr><td><input value='"+cur_led+"' /></td><td><input value='"+hex_color+"' /></td><td><button class='add_button'>+</button></td><td><button class='delete_button'>-</button></td></tr>"); //appending table used to send/save json
+	    $('#selected_table > tbody:last-child').append("<tr><td><input value='"+cur_led+"' /></td><td><input style='background-color: "+hex_color+"' value='"+hex_color+"' /></td><td><button class='add_button'>+</button></td><td><button class='delete_button'>-</button></td></tr>"); //appending table used to send/save json
+	    
+	    for(i=0; i<started_sockets.length; i++){
+	    	started_sockets[i].send("led_set:"+hex_color+":"+cur_led);
+	    }
 
 	    if (lastClicked) lastClicked.className='';
 	    lastClicked = el;
@@ -94,10 +99,16 @@
 </style>
 <!-- websocket sending start -->
 <script>
-var webSocket = new WebSocket('ws://192.168.0.110:81/');
-
+var started_sockets = [];
+var count = 0;
+$('.led_sockets').each(function( index ) {
+  var socket = ["socket_"+count] 
+  socket[0] = new WebSocket($(this).val());
+  started_sockets.push(socket[0])
+  count++;
+});
+console.log(started_sockets)
 $('#clear').on('click',function(){
-	// var text = document.getElementById("userinput").value;
 	$("td").css("background-color", 'fff');
 	webSocket.send("clear");
 	return false;
@@ -131,7 +142,9 @@ $('#json_send').on('click',function(){
 			}
 		}
 	});
-	webSocket.send(JSON.stringify(json_arr));
+	for(i=0; i<started_sockets.length; i++){
+		started_sockets[i].send(JSON.stringify(json_arr));
+	}
 	return false;
 })
 //table manipulation

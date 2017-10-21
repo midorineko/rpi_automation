@@ -4,6 +4,7 @@ var app = express();
 var fs = require('fs');
 var ejs = require('ejs');
 const util = require('util');
+var readline = require('linebyline')
 
 app.use(express.static('public'))
 // const WebSocket = require('ws');
@@ -21,7 +22,15 @@ app.get('/', function (req, res) {
 });
 
 app.get('/ledgrid', function (req, res) {
-	res.sendFile(__dirname + '/ledgrid.html');
+	led_sockets = []
+	r2 = readline('led_sockets.txt');
+	r2.on('line', function(line, lineCount, byteCount) {
+	     led_sockets.push(line)
+	})
+	fs.readFile('ledgrid.html', 'utf-8', function(err, content) {
+	  var renderedHtml = ejs.render(content, {led_sockets: led_sockets});  //get redered HTML code
+	  res.end(renderedHtml);
+	});
 });
 
 // app.get('/websocket_direct', function (req, res) {
@@ -36,7 +45,6 @@ app.get('/grow', function (req, res) {
 
 app.get('/water', function (req, res) {
 	totalLines=[]
-	var readline = require('linebyline'),
 	rl = readline('water.txt');
 	rl.on('line', function(line, lineCount, byteCount) {
 	     totalLines.push(line)
@@ -162,9 +170,25 @@ app.get('/lights/:switch', function (req, res) {
 	}
 });
 
+app.get('/scenes_main', function (req, res) {
+	scenes=[]
+	led_sockets = []
+	rl = readline('scene_main_new.txt');
+	rl.on('line', function(line, lineCount, byteCount) {
+	     scenes.push(line)
+	})
+	r2 = readline('led_sockets.txt');
+	r2.on('line', function(line, lineCount, byteCount) {
+	     led_sockets.push(line)
+	})
+	fs.readFile('scenes_main.html', 'utf-8', function(err, content) {
+	  var renderedHtml = ejs.render(content, {scenes: scenes, led_sockets: led_sockets});  //get redered HTML code
+	  res.end(renderedHtml);
+	});
+});
+
 app.get('/scenes', function (req, res) {
 	scenes=[]
-	var readline = require('linebyline'),
 	rl = readline('scene.txt');
 	rl.on('line', function(line, lineCount, byteCount) {
 	     scenes.push(line)
