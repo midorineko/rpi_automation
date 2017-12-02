@@ -4,11 +4,16 @@ var app = express();
 var fs = require('fs');
 var ejs = require('ejs');
 const util = require('util');
-var readline = require('linebyline')
+var readline = require('linebyline');
+var https = require( 'https' );
+
+
+var request = require('request');
+var cheerio = require('cheerio');
 
 app.use(express.static('public'))
-// const WebSocket = require('ws');
-// const ws = new WebSocket('http://192.168.0.110:81');
+const WebSocket = require('ws');
+const ws = new WebSocket('http://192.168.0.110:8080');
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -33,11 +38,121 @@ app.get('/ledgrid', function (req, res) {
 	});
 });
 
-// app.get('/websocket_direct', function (req, res) {
-// 	console.log('we sent it');
-// 	ws.send("LED");
-// 	res.sendFile(__dirname + '/websocket.html');
-// });
+app.get('/scrape', function(req, res){
+  url = 'https://www.reddit.com/r/DotA2';
+
+  request(url, function(error, response, html){
+    if(!error){
+      var $ = cheerio.load(html);
+      var name_1;
+      var name_2;
+      var tournament;
+      var live;
+
+      $('.md').filter(function(){
+        var data = $(this);
+        tournament = data.first().children('blockquote').eq(1).children('blockquote').children('blockquote').children('blockquote').children('blockquote').children('p').children('a').children('del').eq(0).html();
+        live = data.first().children('blockquote').eq(1).children('blockquote').children('blockquote').children('blockquote').children('blockquote').children('p').children('a').children('del').eq(1).html();
+        name_1 = data.first().children('blockquote').eq(1).children('blockquote').children('blockquote').children('blockquote').children('blockquote').children('p').children('a').children('del').eq(2).html();
+        name_2 = data.first().children('blockquote').eq(1).children('blockquote').children('blockquote').children('blockquote').children('blockquote').children('p').children('a').children('del').eq(3).html();
+      });
+    }
+
+    res.send('Check your console!')
+    res.statusCode = 302;
+    res.end();
+  })
+})
+
+app.get('/test', function (req, res) {
+	https.get('https://www.reddit.com/r/DotA2/', function(response) {
+		  var final_games_string = '';
+	      var body = '';
+          response.on('data', function(d) {
+              body += d;
+          });
+          response.on('end', function() {
+              var str = body;
+              var result = str.match(/<del>(.*?)<\/del>/g).map(function(val){
+                 return val.replace(/<\/?del>/g,'');
+              });
+              var a = result;
+              var new_arrs = [];
+              var final_string = '';
+              var count = 1;
+              var time_arr = [];
+              while(a.length) {
+              	  b = a.splice(0,4)
+              	  if(b[1] != 'LIVE'){
+                  	new_arrs.push(b);
+                  	var time_arr = b[1].split(' ');
+             		var time_string = '';
+                  	time_arr.forEach(function(element) {
+                  	    if(element.indexOf('d') !== -1){
+                  	    	time_string += parseInt(element) + ' ' + 'days ';
+                  	    }else if(element.indexOf('h') !== -1){
+                  	    	time_string += parseInt(element) + ' ' + 'hours ';
+                  	    }else if(element.indexOf('m') !== -1){
+                  	    	time_string += parseInt(element) + ' ' + 'minutes ';
+                  	    }else if(element.indexOf('s') !== -1){
+                  	    	time_string += parseInt(element) + ' ' + 'seconds ';
+                  	    }
+                  	});
+                  	final_string += count +', ' + b[2] + ', verse ' + b[3] + '. In ' + time_string +'. ';
+                  	count += 1;
+              	  }
+              }
+              console.log(final_string);
+          });
+          res.statusCode = 302;
+          res.end();
+	} );
+});
+
+
+
+app.get('/scene_select/:name', function (req, res) {
+	rl = readline('scene_main_new.txt');
+	rl.on('line', function(line, lineCount, byteCount) {
+	     if(line.split('=')[0].toLowerCase().replace(/\s/g, '') == req.params.name.toLowerCase().replace(/\s/g, '')){
+			ws.send(line.split('=')[1]);
+	     }
+	});
+	var json_obj = {};
+	r2 = readline('color_name_to_hex.txt');
+	r2.on('line', function(line, lineCount, byteCount) {
+	     if(line.split('=')[0].toLowerCase() == req.params.name.toLowerCase()){
+			json_obj['color1'] = line.split('=')[1];
+			ws.send(JSON.stringify(json_obj));
+	     }
+	});
+	res.statusCode = 302;
+	res.end();
+});
+
+app.get('/brightness/:bright', function (req, res) {
+	bright_string = "brightness=" + req.params.bright;
+	console.log(bright_string);
+	ws.send(bright_string);
+	res.statusCode = 302;
+	res.end();
+});
+
+app.get('/color_select/:set/:color', function (req, res) {
+	var set = req.params.set.toLowerCase();
+	var color = req.params.color;
+	var json_obj = {};
+	rl = readline('color_name_to_hex.txt');
+	rl.on('line', function(line, lineCount, byteCount) {
+	     if(line.split('=')[0].toLowerCase() == req.params.color.toLowerCase()){
+			json_obj[set] = line.split('=')[1];
+			console.log(JSON.stringify(json_obj));
+			ws.send(JSON.stringify(json_obj));
+	     }
+	});
+	res.statusCode = 302;
+	res.end();
+});
 
 app.get('/grow', function (req, res) {
 	res.sendFile(__dirname + '/grow.html');

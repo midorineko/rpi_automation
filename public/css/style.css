@@ -10,3 +10,15 @@
       float: left;
       margin: 1%;
 }
+.solid_selection {
+      text-align: center;
+	text-decoration: none;
+	color: #6669FF;
+	border: 1px solid #36FFAA;
+	font-size: 24px;
+	padding: 10px;
+      width: 42%;
+      height: 100px;
+      float: left;
+      margin: 1%;
+}

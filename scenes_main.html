@@ -1,25 +1,71 @@
 <html>
 <head>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <link rel="stylesheet" type="text/css" href="/css/style.css" />
   <title>Steven's Home Automation Hub</title>
 </head>
 
-<% for(var i=0; i < led_sockets.length; i++) { %>
-	<input class='led_sockets' style="width: 100%; text-align: center;" value="<%= led_sockets[i] %>"/>
-<% } %>
+<div style="width: 100%;">
+	<% for(var i=0; i < led_sockets.length; i++) { %>
+		<input class='led_sockets' style="width: 91%; text-align: center;" value="<%= led_sockets[i] %>"/>
+	<% } %>
+</div>
+
+<div style="width: 91%; text-align: center;">Frames</div> <div style="width: 92%; margin-top: 5px;" id="frames_slider"></div>
+<div style="width: 91%; text-align: center;">Brightness</div> <div style="width: 92%; margin-top: 5px;" id="brightness_slider"></div>
+<div style="width: 91%; text-align: center;">Grouping</div> <div style="width: 92%; margin-top: 5px;" id="grouping_slider"></div>
+<input type="color" class="color_picker" id="ssColor" style="width: 46%; margin-top: 5px; float: left;">
+<input type="color" class="color_picker" id="ssColor2" style="width: 46%; margin-top: 5px; float: left;">
+
 <table>
   <% for(var i=0; i < scenes.length; i++) { %>
        <div id="<%= i %>" class="scene_selection" style="cursor: pointer;"><%= scenes[i].split("=")[0] %>
        		<span id="<%= i %>_json" style='display: none;'><%= scenes[i].split("=")[1] %></span>
        </div>
   <% } %>
+  <div class="solid_selection" style="cursor: pointer;">Solid
+  </div>
 </table>
-
 <br>
 <br>
 
 <script type="text/javascript">
+	$("#frames_slider").slider({
+	    value: 106,
+	    min: 1,
+	    max: 212,
+	    step: 1,
+	    change: function (event, data) {
+	        for(i=0; i<started_sockets.length; i++){
+	        	started_sockets[i].send("frames=" + data.value);
+	        }
+	    }
+	});
+	$("#brightness_slider").slider({
+	    value: 255,
+	    min: 0,
+	    max: 255,
+	    step: 1,
+	    change: function (event, data) {
+	        for(i=0; i<started_sockets.length; i++){
+	        	started_sockets[i].send("brightness=" + data.value);
+	        }
+	    }
+	});
+	$("#grouping_slider").slider({
+	    value: 100,
+	    min: 2,
+	    max: 900,
+	    step: 1,
+	    change: function (event, data) {
+	        for(i=0; i<started_sockets.length; i++){
+	        	started_sockets[i].send("grouping=" + data.value);
+	        }
+	    }
+	});
+
 	var started_sockets = [];
 	var count = 0;
 	$('.led_sockets').each(function( index ) {
@@ -36,5 +82,28 @@
 			started_sockets[i].send(json_val);
 		}
 		return false;
-	})	
+	});
+	$('.solid_selection').on('click', function(){
+		var json_obj = {};
+		json_obj['solid'] = $('#ssColor').val();
+
+		for(i=0; i<started_sockets.length; i++){
+			started_sockets[i].send(JSON.stringify(json_obj));		
+		}
+	});
+	$('.color_picker').on('input', function(){
+		var json_obj = {};
+		if($(this).attr('id') == 'ssColor'){
+			json_obj['color1'] = $(this).val();
+		}else{
+			json_obj['color2'] = $(this).val();
+		}
+		for(i=0; i<started_sockets.length; i++){
+			started_sockets[i].send(JSON.stringify(json_obj));
+		}
+	});
 </script>
+
+<style>
+
+</style>
